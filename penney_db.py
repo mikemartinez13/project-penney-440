@@ -60,6 +60,7 @@ class DB:
         return
 
     def who_wins(self,p1_guess, p2_guess, p1_pot, p2_pot, p1_tricks,p2_tricks):
+        ##this so far only accounts for a player 1 win based on card amount
         self.connect()
         if p1_pot>p2_pot:
         ##here would be add an entry to the database where
