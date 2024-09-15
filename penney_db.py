@@ -60,20 +60,30 @@ class DB:
         return
 
     def who_wins(self,p1_guess, p2_guess, p1_pot, p2_pot, p1_tricks,p2_tricks):
-        ##this so far only accounts for a player 1 win based on card amount
+       
         self.connect()
+
         if p1_pot>p2_pot:
-        ##here would be add an entry to the database where
-        ##needs to correlate with the guess combo so we know what I guess each entry in the P1 guess and P2 guess columns 
-        ##would need to use the INSERT INTO command for SQL
             win_cards='p1'
+        if p1_pot<p2_pot:
+            win_cards='p2'
+        if p1_pot == p2_pot:
+            win_cards='draw' ##need to ask abt what to do in this case
+        if p1_tricks>p2_tricks:
+            win_tricks='p1'
+        if p2_tricks>p1_tricks:
             win_tricks='p2'
-            sql= '''
+        if p1_tricks == p2_tricks:
+            win_tricks='draw' ##need to ask abt what to do in this case
+            
+        sql= '''
             INSERT INTO tPenney (p1_guess, p2_guess, p1_cards, p2_cards, p1_tricks, p2_tricks,win_cards, win_tricks)
             VALUES (:p1_guess, :p2_guess, :p1_cards, :p2_cards, :p1_tricks, :p2_tricks, :win_cards, :win_tricks);
 
         '''
-            self.curs.execute(sql, (p1_guess, p2_guess, p1_pot, p2_pot, p1_tricks,p2_tricks, win_cards, win_tricks))
-            self.conn.commit()
+        
+        self.curs.execute(sql, (p1_guess, p2_guess, p1_pot, p2_pot, p1_tricks,p2_tricks, win_cards, win_tricks))
+        self.conn.commit()
+        
         return
    
