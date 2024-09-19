@@ -6,14 +6,18 @@ from typing import List, Tuple
 from itertools import product
 import pandas as pd
 
+<<<<<<< HEAD
 # Function to take in a sequence of cards and return the scores for both players
 def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]: 
+=======
+def run_game(sequence:int, p1_seq:str, p2_seq:str) -> Tuple[int,int]: 
+>>>>>>> a1b261e8e40459e857a2a9c69887de7b04334e1b
     if p1_seq == p2_seq:
         return 0, 0, 0, 0
     stack = ''
     p1score_trick,p1score_cards,p2score_trick,p2score_cards = 0,0,0,0
 
-    for card in sequence:
+    for card in bin(sequence)[2:]:
         stack+=card
         curstack = stack[-3:]
         if curstack == p1_seq:
@@ -25,7 +29,11 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
             p2score_cards+=len(stack)
             stack = ''
     
+<<<<<<< HEAD
     return p1score_trick, p2score_trick, p1score_cards, p2score_cards # (if positive, p1 won. If negative, p2 won. If 0, tie)
+=======
+    return p1score_trick, p2score_trick, p1score_cards, p2score_cards
+>>>>>>> a1b261e8e40459e857a2a9c69887de7b04334e1b
 
 
 # Function to simulate a number of games, ngames.
@@ -54,10 +62,17 @@ def sim(ngames: int) -> pd.DataFrame:
     
     
     index = 0
+<<<<<<< HEAD
     for seed in range(ngames):
         random.seed(seed)
 
         ndeck = ''.join(random.sample(cards, len(cards)))  # Use cards.copy() to keep the original list intact
+=======
+    for gamenum in range(ngames):
+        random.seed(gamenum)
+        #seeds[gamenum] = gamenum
+        ndeck = int(''.join(random.sample(cards, len(cards), )), 2)  # Use cards.copy() to keep the original list intact
+>>>>>>> a1b261e8e40459e857a2a9c69887de7b04334e1b
         
         for p1guess, p2guess in product(patterns, patterns):
             result = run_game(ndeck, p1guess, p2guess)
@@ -75,8 +90,16 @@ def sim(ngames: int) -> pd.DataFrame:
 ##########################
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     # final_old = sim(ngames = 1000)
     # final_new = optimized_sim(ngames = 1000)
     final_test = sim(ngames = 10000)
     print(final_test[0])
 
+=======
+    final_old = sim(ngames = 100)
+    final_new = optimized_sim(ngames = 100)
+    final_test = test_sim(ngames = 100)
+
+    print(final_test)
+>>>>>>> a1b261e8e40459e857a2a9c69887de7b04334e1b
