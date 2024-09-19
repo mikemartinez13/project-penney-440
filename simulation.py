@@ -6,13 +6,13 @@ from typing import List, Tuple
 from itertools import product
 import pandas as pd
 
-def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]: 
+def run_game(sequence:int, p1_seq:str, p2_seq:str) -> Tuple[int,int]: 
     if p1_seq == p2_seq:
         return 0, 0, 'T', 0, 0, 'T'
     stack = ''
     p1score_trick,p1score_cards,p2score_trick,p2score_cards = 0,0,0,0
 
-    for card in sequence:
+    for card in bin(sequence)[2:]:
         stack+=card
         curstack = stack[-3:]
         if curstack == p1_seq:
@@ -23,11 +23,8 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
             p2score_trick+=1
             p2score_cards+=len(stack)
             stack = ''
-
-    trick_outcome = 'p1' if p1score_trick > p2score_trick else 'p2' if p2score_trick > p1score_trick else 'T'
-    cards_outcome = 'p1' if p1score_cards > p2score_cards else 'p2' if p2score_cards > p1score_cards else 'T'
     
-    return p1score_trick, p2score_trick, trick_outcome, p1score_cards, p2score_cards, cards_outcome # (if positive, p1 won. If negative, p2 won. If 0, tie)
+    return p1score_trick, p2score_trick, p1score_cards, p2score_cards
 
 def sim(ngames: int) -> pd.DataFrame:
     start = time.time()
@@ -142,7 +139,7 @@ def test_sim(ngames: int) -> pd.DataFrame:
     for gamenum in range(ngames):
         random.seed(gamenum)
         #seeds[gamenum] = gamenum
-        ndeck = random.sample(cards, len(cards))  # Use cards.copy() to keep the original list intact
+        ndeck = int(''.join(random.sample(cards, len(cards), )), 2)  # Use cards.copy() to keep the original list intact
         
         for p1guess, p2guess in product(patterns, patterns):
             result = run_game(ndeck, p1guess, p2guess)
@@ -169,4 +166,3 @@ if __name__ == "__main__":
     final_test = test_sim(ngames = 100)
 
     print(final_test)
-
