@@ -70,7 +70,7 @@ def heatmap(path_db): #path_db = 'data/database_name.db'
             TimesPlayed tp ON t.p1_seq = tp.p1_seq AND t.p2_seq = tp.p2_seq
         ORDER BY t.p1_seq, t.p2_seq asc;
         '''
-        return penney_db1.DB.run_query(sql)
+        return database.run_query(sql)
 
     def create_viz(dict):
         var_cards = dict['Cards']
