@@ -45,12 +45,14 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
 
 
 # Function to simulate a number of games, ngames.
-def sim(ngames: int) -> pd.DataFrame:
+def sim(ngames: int, seed=0) -> pd.DataFrame:
 
     # Store the deck as a string of 1s and 0s or an integer. 
     # 1s represent red cards and 0s represent black cards.
     # Test at larger scale and see if it can handle the operations. 
 
+    random.seed(seed)
+    
     patterns = [
         '111',
         '110',
@@ -69,8 +71,7 @@ def sim(ngames: int) -> pd.DataFrame:
     results = np.empty((ngames * len(patterns) ** 2, 10), dtype=object)
     
     index = 0
-    for seed in range(ngames):
-        random.seed(seed)
+    for _ in range(ngames):
 
         ndeck = int(''.join(random.sample(cards, len(cards), )), 2)  # Use cards.copy() to keep the original list intact
         
@@ -89,6 +90,6 @@ def sim(ngames: int) -> pd.DataFrame:
 if __name__ == "__main__":
     # final_old = sim(ngames = 1000)
     # final_new = optimized_sim(ngames = 1000)
-    res = time_function(sim)(ngames=1000)  # Call the sim function with timing
+    res = time_function(sim)(ngames=1000, seed=0)  # Call the sim function with timing
 
     print(res[0])
