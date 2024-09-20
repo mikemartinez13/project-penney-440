@@ -26,7 +26,7 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
     stack = ''
     p1score_trick,p1score_cards,p2score_trick,p2score_cards = 0,0,0,0
 
-    for card in sequence:
+    for card in format(sequence, '052b'):
         stack+=card
         curstack = stack[-3:]
         if curstack == p1_seq:
@@ -72,7 +72,7 @@ def sim(ngames: int) -> pd.DataFrame:
     for seed in range(ngames):
         random.seed(seed)
 
-        ndeck = ''.join(random.sample(cards, len(cards)))  # Use cards.copy() to keep the original list intact
+        ndeck = int(''.join(random.sample(cards, len(cards), )), 2)  # Use cards.copy() to keep the original list intact
         
         for p1guess, p2guess in product(patterns, patterns):
             result = run_game(ndeck, p1guess, p2guess)
