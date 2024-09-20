@@ -26,7 +26,7 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
     stack = ''
     p1score_trick,p1score_cards,p2score_trick,p2score_cards = 0,0,0,0
 
-    for card in format(sequence, '052b'):
+    for card in format(sequence, '052b'): # padding to make the sequence always 52 characters long
         stack+=card
         curstack = stack[-3:]
         if curstack == p1_seq:
@@ -45,7 +45,7 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
 
 
 # Function to simulate a number of games, ngames.
-def sim(ngames: int, seed: int) -> pd.DataFrame:
+def sim(ngames: int, seed: int) -> List[List]:
 
     # Store the deck as a string of 1s and 0s or an integer. 
     # 1s represent red cards and 0s represent black cards.
@@ -82,11 +82,11 @@ def sim(ngames: int, seed: int) -> pd.DataFrame:
     
     return results
 
-def make_database(simulation):
-    db = DB()
-    db.connect_db()
-    db.insert_results(simulation)
-    return db.get_database_file()
+# def make_database(simulation):
+#     db = DB()
+#     db.connect_db()
+#     db.insert_results(simulation)
+#     return db.get_database_file()
 
 
 ##########################
@@ -96,6 +96,8 @@ def make_database(simulation):
 if __name__ == "__main__":
     # final_old = sim(ngames = 1000)
     # final_new = optimized_sim(ngames = 1000)
-    res = time_function(sim)(ngames=1000, seed=0)  # Call the sim function with timing
-
-    print(res[0])
+    res = time_function(sim)(ngames=10, seed=0)  # Call the sim function with timing
+    dat = pd.DataFrame(res)
+    print(dat[0].unique())
+    print(dat[1].unique())
+    print(pd.DataFrame(res).head(50))

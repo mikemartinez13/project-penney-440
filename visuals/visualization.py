@@ -2,10 +2,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import sqlite3
-import penney_db1
+import data_mgmt.penney_db1 as penney_db1
 from importlib import reload
 reload(penney_db1);
 import os
+import numpy as np
 
 def heatmap(path_db): #path_db = 'data/database_name.db'
     db = penney_db1.DB(path_db)
@@ -67,16 +68,16 @@ def heatmap(path_db): #path_db = 'data/database_name.db'
             CardWins c ON t.p1_seq = c.p1_seq AND t.p2_seq = c.p2_seq
         LEFT JOIN 
             TimesPlayed tp ON t.p1_seq = tp.p1_seq AND t.p2_seq = tp.p2_seq
-        ORDER BY t.p1_seq, t.p2_seq desc;
+        ORDER BY t.p1_seq, t.p2_seq asc;
         '''
-        return d.run_query(sql)
-  
+        return penney_db1.DB.run_query(sql)
+
     def create_viz(dict):
         var_cards = dict['Cards']
         var_tricks = dict['Tricks']
         n = dict['n']
         x_axis_labels = ['BBB','BBR','BRB','BRR','RBB','RBR','RRB','RRR'] #player 1 
-        y_axis_labels = ['RRR','RRB','RBR','RBB','BRR','BRB','BBR','BBB'] #player 2
+        y_axis_labels = ['BBB','BBR','BRB','BRR','RBB','RBR','RRB','RRR'] #player 2
     
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
     

@@ -2,23 +2,45 @@ import sqlite3
 import pandas as pd
 import sqlite3
 import pandas as pd
+import os
+
+def make_database(results,path):
+    df = pd.DataFrame(results, columns=['seed','deck','p1_seq', 'p2_seq','p1_num_tricks','p2_num_tricks','win_tricks','p1_num_cards','p2_num_cards','win_cards'])
+    db = DB(path, create = True)
+    # this had the connect_db() method
+    db.insert_results(df)
+    return db.get_database_file()
 
 class DB:
-    def __init__(self, db_name='../data440/example.db'):
-        self.db_name = db_name
-        self.conn = None
-        self.curs = None
+    def __init__(self,
+                 path_db: str ,        # Path to the database file
+                 create: bool = False # Should we create a new database if it doesn't exist?
+                ):
+        
+        # Check if the file does not exist
+        if not os.path.exists(path_db):
+            # Should we create it?
+            if create:
+                self.conn = sqlite3.connect(path_db)
+                self.conn.close()
+            else:
+                raise FileNotFoundError(path_db + ' does not exist.')
+        self.path_db = path_db
+        return
+    
 
     def connect_db(self):
-        self.conn = sqlite3.connect(self.db_name)
+        self.conn = sqlite3.connect(self.path_db)
         self.curs = self.conn.cursor()
 
     def close(self) -> None:
         if self.conn:
             self.conn.close()
 
-    def insert_results(self, array) -> None:
-        array.to_sql('win_results', self.conn, if_exists='append', index=False)
+    def insert_results(self, df) -> None:
+        self.connect_db()
+        df.to_sql('win_results', self.conn, if_exists='append', index=False)
+        self.close
 
   
     def run_query(self, sql: str, params=None, manage_conn=True):
@@ -60,5 +82,5 @@ class DB:
             self.close()
 
     def get_database_file(self):
-        return '.../data440/example.db'
+        return self.path_db
 
