@@ -45,7 +45,7 @@ def run_game(sequence:List[str], p1_seq:str, p2_seq:str) -> Tuple[int,int]:
 
 
 # Function to simulate a number of games, ngames.
-def sim(ngames: int, seed=0) -> pd.DataFrame:
+def sim(ngames: int, seed: int) -> pd.DataFrame:
 
     # Store the deck as a string of 1s and 0s or an integer. 
     # 1s represent red cards and 0s represent black cards.
