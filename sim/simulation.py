@@ -82,6 +82,12 @@ def sim(ngames: int, seed: int) -> pd.DataFrame:
     
     return results
 
+def make_database(simulation):
+    db = DB()
+    db.connect_db()
+    db.insert_results(simulation)
+    return db.get_database_file()
+
 
 ##########################
 ######## Testing #########
