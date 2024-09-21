@@ -21,7 +21,7 @@ In `sim(n, seed)`:
 To visualize all the data from all the iterations, or decks, played, the user then must call the function `heatmap('data/database_name.db')`, where `'data/database_name.db'` is the path to the database to be modeled in a string format.  If the user has different data than the database file created by `sim(n, seed)` they must have a database file located in the data folder where the columns are named and have data as follows:
 * The table name must be named ‘win_results’
 * seed: an integer describing the random seed used to shuffle the decks
-*deck: integer representation of the deck used for each game 
+* deck: integer representation of the deck used for each game 
 * p1_seq: A string of 3 characters either 1 or 0 (ex. 111) representing Player 1’s guess.
 * p2_seq: A string of 3 characters either 1 or 0 (ex. 111) representing Player 2’s guess.
 * p1_num_tricks: An integer describing how many tricks Player 1 won.
