@@ -3,7 +3,7 @@
 
 ** The main branch is the most up to date branch, other branches were used for development **
 
-To run this simulation and visualization you must download main.ipynb, penney_db1.py, visualization.py, simulation.py, and play.py. In this same directory, you must have a folder named ‘data’ to hold the database files, and a folder named ‘figures’ that stores the images depicting the results of Penney’s Game.
+To run this simulation and visualization you must download main.ipynb, penney_db1.py, visualization.py, simulation.py, and play.py. In this same directory, you must have a folder named ‘data’ to hold the database files, and a folder named ‘figures’ that stores the images depicting the results of Penney’s Game. In main.ipynb, we used 40,000 decks. We found that 100,000 decks leads to the most accurate results, but GitHub cannot handle that size data file. If the FLB would like the data and corresponding figure with 100,000 decks, the FLB should contact Annamarie directly.
 
 In our game, a **red card is denoted as 1 and a black card is denoted as 0**. The final visualization depicts the probabilities Player 1 wins based on each unique combination of their guess and Player 2’s guess. It also accounts for the methods of winning, those being by card amount and trick amount.
 
@@ -11,11 +11,10 @@ To start the game with no prior data, the user must use the function `play(path,
 In every iteration, each possible combination of guesses from Player 1 and Player 2 will be tested, making 64 total games using one deck. 
 
 In `play(path, n_games, seed=0)`:
-In `sim(n, seed)`:
-* A “deck of cards” is instantiated, where red cards are represented by “1’s” and black cards are represented by “0’s”. The first deck is instantiated with 26 “1”s + 26 “0”s as a string
+* `sim(n, seed)` is called. A “deck of cards” is instantiated, where red cards are represented by “1’s” and black cards are represented by “0’s”. The first deck is instantiated with 26 “1”s + 26 “0”s as a string
 * Variable n decides the number of “games” played, and the deck is shuffled according to the seed.
 * For every deck created, the function `run_game()` is played for each combination of guesses possible, where a winner is determined and listed in an array. If the guesses for Player 1 and Player 2 are the same the game results in an immediate tie. 
-* sim(n, seed) then returns a list of lists. Each lists contains data for columns describing random seed number, the deck used (stored as an integer), Player 1’s guess, Player 2’s guess, p1_num_tricks, p2_num_tricks, win_tricks, and then same for cards
+* `sim(n, seed)` then returns a list of lists. Each lists contains data for columns describing random seed number, the deck used (stored as an integer), Player 1’s guess, Player 2’s guess, p1_num_tricks, p2_num_tricks, win_tricks, and then same for cards
 * A function called make_database() is called on the lists of lists, where it is translated into a pandas dataframe. A database named using the user-specified path is then created by the `make_database()` function and added to the folder called data. If the database has already been created it appends the data from the pandas dataframe into the existing database.
 
 To visualize all the data from all the iterations, or decks, played, the user then must call the function `heatmap('data/database_name.db')`, where `'data/database_name.db'` is the path to the database to be modeled in a string format.  If the user has different data than the database file created by `sim(n, seed)` they must have a database file located in the data folder where the columns are named and have data as follows:
