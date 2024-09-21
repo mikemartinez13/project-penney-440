@@ -19,7 +19,7 @@ In `sim(n, seed)`:
 * A function called make_database() is called on the lists of lists, where it is translated into a pandas dataframe. A database named using the user-specified path is then created by the `make_database()` function and added to the folder called data. If the database has already been created it appends the data from the pandas dataframe into the existing database.
 
 To visualize all the data from all the iterations, or decks, played, the user then must call the function `heatmap('data/database_name.db')`, where `'data/database_name.db'` is the path to the database to be modeled in a string format.  If the user has different data than the database file created by `sim(n, seed)` they must have a database file located in the data folder where the columns are named and have data as follows:
-	*The table name must be named ‘win_results’
+	* The table name must be named ‘win_results’
 	* seed: an integer describing the random seed used to shuffle the decks
 *deck: integer representation of the deck used for each game 
 	* p1_seq: A string of 3 characters either 1 or 0 (ex. 111) representing Player 1’s guess.
@@ -31,7 +31,7 @@ To visualize all the data from all the iterations, or decks, played, the user th
 	* p2_num_cards: An integer describing how many cards Player 2 won.
 	* win_cards: A string either ‘p1,’ ‘p2,’ or ‘T’ denoting who won the individual game using trick amounts to determine a winner.
 
-By executing `heatmap(‘data/database_name.db’):
+By executing `heatmap(‘data/database_name.db’)`:
 	* The function connects to the database file whose path was passed in a string.
 	* The probabilities of Player 1 winning either by card amount or trick amount are calculated for each possible combination of guesses from Player 1 and Player 2. The number of iterations, or decks, is also found. 
 	* Two 8 x 8 arrays are created, each pertaining to a win method. These hold the probabilities Player 1 wins corresponding to each combination of guesses between Player 1 and Player 2.
