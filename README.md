@@ -30,8 +30,9 @@ To visualize all the data from all the iterations, or decks, played, the user mu
 * `win_cards`: A string either ‘p1,’ ‘p2,’ or ‘T’ denoting who won the individual game using card amounts to determine a winner
 
 By executing `heatmap(‘data/database_name.db’)`:
-* The function connects to the database file whose path was passed in a string.
-* The probabilities of Player 1 winning either by card amount or trick amount are calculated for each possible combination of guesses from Player 1 and Player 2. The number of iterations, or decks, is also found. 
-* Two 8 x 8 arrays are created, each pertaining to a win method. These hold the probabilities Player 1 wins corresponding to each combination of guesses between Player 1 and Player 2.
-* A dictionary is made holding the 8 x 8 array with probabilities of  Player 1 winning by trick amount, the 8 x 8 array with the probabilities of Player 1 winning by card amount, and n amount of times the simulation has been run.
-* The `create_viz()` function is called on the dictionary created, where 2 subplots are made corresponding to the different variations of winning for Player 1. It shows and creates an image named ‘heatmap_n(number of decks).png’ where (number of decks) is the number n passed in by the dictionary. This image file is then moved to the folder named `figures`.
+* The function connects to the database file whose path was passed in.
+* The probabilities of Player 1 winning either by card amount or trick amount are calculated for each possible combination of guesses from Player 1 and Player 2.
+* The number of iterations, or decks, is found. 
+* Two 8 x 8 arrays are created, each pertaining to a win method. These hold the probabilities of Player 1 winning for each combination of guesses between Player 1 and Player 2.
+* A dictionary is made holding an 8 x 8 array with probabilities of Player 1 winning by trick amount, an 8 x 8 array with the probabilities of Player 1 winning by card amount, and n amount of times the simulation has been run.
+* The `create_viz(dict)` function is called on the dictionary created, where 2 subplots are made corresponding to the different variations of Player 1 winning. It shows and creates an image named ‘heatmap_n(number of decks).png’ where (number of decks) is the number n passed in by the dictionary. This image file is then moved to the folder named `figures`.
