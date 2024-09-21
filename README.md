@@ -3,7 +3,7 @@
 
 **The main branch is the most up to date branch, other branches were used for development.**
 
-To run this simulation and visualization you must download main.ipynb, penney_db1.py, visualization.py, simulation.py, and play.py. In this same directory, you must have a folder named ‘data’ to hold the database files, and a folder named ‘figures’ that stores the images depicting the results of Penney’s Game. In main.ipynb, we used 30,000 decks. We found that 100,000 decks leads to the most accurate results, but GitHub cannot handle that size data file. The figure with 100,000 decks has been uploaded, but if the FLB would like the data with 100,000 decks he should contact Annamarie directly.
+To run this simulation and visualization you must download main.ipynb, penney_db1.py, visualization.py, simulation.py, and play.py from the main branch. In this same directory, you must have a folder named ‘data’ to hold the database files, and a folder named ‘figures’ that stores the images depicting the results of Penney’s Game. In main.ipynb, we used 30,000 decks. We found that 100,000 decks leads to the most accurate results, but GitHub cannot handle that size data file. The figure with 100,000 decks has been uploaded, but if the FLB would like the data with 100,000 decks he should contact Annamarie directly.
 
 In our game, a **red card is denoted as 1 and a black card is denoted as 0**. The final visualization depicts the probabilities of Player 1 winning based on each unique combination of their guess and Player 2’s guess. It also accounts for the methods of winning, those being by card amount and trick amount.
 
