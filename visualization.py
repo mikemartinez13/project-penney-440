@@ -108,8 +108,8 @@ def heatmap(path_db): #path_db = 'data/database_name.db'
         plt.show()
         
     prob_df = find_prob(db)
-    prob_p1card=np.reshape(prob_df['P1ProbWinCard'].values, (8,8))
-    prob_p1trick=np.reshape(prob_df['P1ProbWinTricks'].values, (8,8))
+    prob_p1card=np.transpose(np.reshape(prob_df['P1ProbWinCard'].values, (8,8)))
+    prob_p1trick=np.transpose(np.reshape(prob_df['P1ProbWinTricks'].values, (8,8)))
     n = prob_df['TimesPlayed'][0]
 
     viz_input={'Cards':prob_p1card, 'Tricks':prob_p1trick, 'n':n}
