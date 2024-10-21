@@ -1,7 +1,19 @@
 # Project Penny
-## Mike Martinez, Annamarie Warnke, Zoe Cummings, David Cho, Claire Kolman, Kirin Mackey
+### Authored by Mike Martinez, Annamarie Warnke, Zoe Cummings, David Cho, Claire Kolman, Kirin Mackey
 
 **The main branch is the most up to date branch, other branches were used for development.**
+
+Project Penney is a project designed to simulate Penney's Game, a game played between two players where each player chooses a sequence of three card colors (e.g. Red, Black, Black). Points are awarded to players if their sequence appears when pulling cards sequentially from a well-shuffled deck. Penney's Game is of interest because the probability of winning is not equal; if the second player learns the sequence chosen by the first player, they can follow a rule to optimize their chances of winning. More information can be found in [the Wikipedia page](https://en.wikipedia.org/wiki/Penney%27s_game). 
+
+Note that our simulation runs two variations of Penney's Game, which have different rules: 
+1. For version 1, players are scored based on the number of "tricks" they earn. For example, if a player's sequence "Red, Black, Black" appears, the deck is cleared and the player earns 1 point. 
+2. For version 2, players are scored based on the number of cards they earn. If a player's sequence "Red, Black, Black" appears, the deck is cleared and the player earns _all_ the cards in the deck. 
+
+To run the simulation, first clone the repository: 
+
+```git clone https://github.com/mikemartinez13/project-penney-440.git```
+
+Next, open "main.ipynb" and run all of the cells. The "play" function takes in the path of where you would like to store your data as well as the number of games you would like to run. 
 
 To run this simulation and visualization you must download `main.ipynb`, `penney_db1.py`, `visualization.py`, `simulation.py`, and `play.py` from the main branch. In the same directory, you must have a folder named `data` to hold the database files, and a folder named `figures` that stores visualizations depicting simulation results. In `main.ipynb`, we used 30,000 decks. We found that 100,000 decks leads to the most accurate results, but GitHub cannot handle that size data file. The figure with 100,000 decks has been uploaded, but if the FLB would like the data with 100,000 decks he should contact Annamarie directly.
 
