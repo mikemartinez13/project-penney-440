@@ -472,10 +472,8 @@ def make_heatmap_package_backend(data1: np.ndarray,
                          n2: int,
                          win_type1: str,
                          win_type2:str,
-                         data1_ties:Optional[np.ndarray]=None,
-                         data2_ties:Optional[np.ndarray]=None,
-                         labels1: Optional[np.ndarray]=None,
-                         labels2: Optional[np.ndarray]=None,
+                         labels1: np.ndarray,
+                         labels2: np.ndarray,
                          letters: bool = True
                         ) -> [plt.Figure, plt.Axes]:
     
@@ -565,8 +563,8 @@ def make_heatmap_package(data1: Optional[np.ndarray]=None,
 
         ##making heatmaps corresponding to format
         if format == 'png':
-            fig, ax=make_heatmap_package_backend(data1=data1, data1_ties=data1_ties, data2=data2, 
-                                   data2_ties=data2_ties,title1=title1, 
+            fig, ax=make_heatmap_package_backend(data1=data1, data2=data2, 
+                                   title1=title1, 
                                    title2=title2, n1=n1, n2=n2, win_type1=win_type1, win_type2=win_type2, labels1=labels1, labels2=labels2, letters=letters)
             fig.savefig('figures/heatmap_packaged_'+win_type1+"_n"+str(n1)+"_"+win_type2+"_n"+str(n2)+".png", bbox_inches = 'tight', facecolor = 'white')
 
