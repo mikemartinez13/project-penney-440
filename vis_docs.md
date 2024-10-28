@@ -8,15 +8,15 @@
 - Figure size: single heatmap - (height = 6, width = 6) , bundled heatmap - (height = 6, width = 12)
 - Title font size: 15
 - Axes:
-         - X axis: title = “My Guesses”, title size = 12, tick size: 10
-         - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
+         * X axis: title = “My Guesses”, title size = 12, tick size: 10
+         * Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
 - Annot (text in each cell of heatmap) font size = 8
 - Linewidth = 0.5
 - colormap= ‘Blues’
 - fmt =’’ (used to aid in displaying the annots)
 - Colorbar
-         - Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
-         - Outline width = 0.2
+         * Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
+         * Outline width = 0.2
 - Face color (background color) = #DBDBDB
 - vmin = 0, vmax=100
 - wspace (for bundled heatmaps) = 0.1
@@ -26,21 +26,21 @@
 - Title font size: 22
 - Title spacing: single - (x = 0.5, y = 0.94) bundle - (y = 1.05)
 - Axes:
-         - X axis: title = 'My Guesses', title size=18, tick size=16
-         - Y axis: title = 'Opponent Guesses', title size=18, tick size=16
-         - showgrid = False for and x and y axes
+         * X axis: title = 'My Guesses', title size=18, tick size=16
+         * Y axis: title = 'Opponent Guesses', title size=18, tick size=16
+         * showgrid = False for and x and y axes
 - xgap and ygap both = 1
 - Colors: ‘blues’
 - Tool tip text:
-         - Me: [x-value], Opponent: [y-value]
-         - My Win Probability: [win_prob]
-         - Tie Probability: [tie_prob], name = "",
+         * Me: [x-value], Opponent: [y-value]
+         * My Win Probability: [win_prob]
+         * Tie Probability: [tie_prob], name = "",
 - hoverongaps = False                       
 - Colorbar: 
-         - Tick positions [0, 20, 40, 60, 80, 100]
-         - Tick labels [0, 20, 40, 60, 80, 100]
-         - outlinewidth=1
-         - outlinecolor="#E7E7E7"
+         * Tick positions [0, 20, 40, 60, 80, 100]
+         * Tick labels [0, 20, 40, 60, 80, 100]
+         * outlinewidth=1
+         * outlinecolor="#E7E7E7"
 - zmin=0, zmax=100
 - Plot background color = #DBDBDB
 
