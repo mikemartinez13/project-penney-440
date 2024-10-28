@@ -36,4 +36,4 @@ if __name__ == "__main__":
     start_time = time.time()
     generate_data(1000000)
     end_time = time.time()
-    print(start_time - end_time)
+    print(end_time - start_time)
