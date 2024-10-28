@@ -268,17 +268,15 @@ Backend function to create a single heatmap using Seaborn.
 ### `make_heatmap_package_backend`
 Create a 1x2 grid of heatmaps based on the given data. Helper function for the `make_heatmap_package` function.
 
-**Parameters:**
-- `data1` (`np.ndarray`): First dataset.
-- `data2` (`np.ndarray`): Second dataset.
+**Parameters:**  
+- `data1` (`np.ndarray`): Win probability data for the first set of data in an 8x8 array, formatted according to our `format_data` function specifications
+- `data2` (`np.ndarray`): Win probability data for the second set of data in an 8x8 array, formatted according to our `format_data` function specifications
 - `title1` (`str`): Title for the first heatmap.
 - `title2` (`str`): Title for the second heatmap.
 - `n1` (`int`): Number of simulations for the first dataset.
 - `n2` (`int`): Number of simulations for the second dataset.
 - `win_type1` (`str`): Win type for the first dataset. 
 - `win_type2` (`str`): Win type for the second dataset.
-- `data1_ties` (`Optional[np.ndarray]`): Tie data for the first dataset.
-- `data2_ties` (`Optional[np.ndarray]`): Tie data for the second dataset.
 - `labels1` (`Optional[np.ndarray]`): Annotations for the first dataset.
 - `labels2` (`Optional[np.ndarray]`): Annotations for the second dataset.
 - `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
