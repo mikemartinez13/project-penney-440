@@ -290,24 +290,49 @@ Create a 1x2 grid of heatmaps based on the given data. Helper function for the `
 
 
 ### `single_map`
-Creates a single heatmap within a Plotly figure.
+
 
 **Parameters:**
-- `fig` (`plotly.graph_objs._figure.Figure`): The Plotly figure object.
-- `win_prob` (`np.ndarray`): Array of win probabilities.
-- `tie_prob` (`np.ndarray`): Array of tie probabilities.
-- `labels` (`np.ndarray`): Array of annotations.
-- `letters` (`bool`): Use letter sequences for labels.
-- `col` (`int`, optional): Column index for subplot placement. Defaults to `1`.
+- `fig` (`plotly.graph_objs._figure.Figure`): The Plotly figure object with subplots created outside of this function.
+- `win_prob` (`np.ndarray`): Win probability data in an 8x8 array, formatted according to our `format_data` function specifications
+- `tie_prob` (`np.ndarray`): Tie probability data also formatted and in an 8x8 array
+- `labels` (`np.ndarray`): 8 x8 array of annotations to denote the text in each square in the heatmaps.
+- `letters` (`bool`): boolean for letters (`True`) or numbers (`False`) on the axes
+- `col` (`int`): Column index for subplot placement. Defaults to `1`.
 
 **Returns:**
 - `plotly.graph_objs._figure.Figure`: Updated Plotly figure with the heatmap added.
 
 **Description:**
+Creates a single heatmap within a Plotly figure.
+* The function first checks if the argument `letters = True`, then specifies x and y variables with a list of strings for the axes ticks, letters being used if `letters = True` (the default), and numbers being used if `letters = False`
+* Next adds heatmap trace to the subplot using the html figure settings above
+    * win_prob is used as the data to make the heatmap, tie_prob is inserted as customdata for the purpose of the tool tip, the text argument is specified as np.flip(labels,0) for the purpose of the labels appearing correctly on the map and text is used for the texttemplate argument, x and y are set to the x and y lists from above
+    * The trace is added to row = 1, col = col (default = 1), variable for the purpose of bundled maps needing 2 columns
 
-  
+### `bundled_maps`
+
+**Parameters:**
+- `fig` (`plotly.graph_objs._figure.Figure`): The Plotly figure object with subplots created outside of this function.
+- `win_prob` (`np.ndarray`): Win probability data in an 8x8 array, formatted according to our `format_data` function specifications
+- `tie_prob` (`np.ndarray`): Tie probability data also formatted and in an 8x8 array
+- `labels` (`np.ndarray`): 8 x8 array of annotations to denote the text each square in the heatmaps.
+- `win_prob2` (`np.ndarray`): second set of win probability data in an 8x8 array, formatted according to our `format_data` function specifications
+- `tie_prob2` (`np.ndarray`): second set of tie probability data also formatted and in an 8x8 array
+- `labels2` (`np.ndarray`): second set of labels (or annotations) in an 8x8 array as well
+- `letters` (`bool`): boolean for letters (`True`) or numbers (`False`) on the axes
+- `col` (`int`): Column index for subplot placement. 
+
+**Returns:**
+- `plotly.graph_objs._figure.Figure`: Returns the Plotly figure object from the second instance of `single_map`
+
+**Description:**
+* This function adds trace to the first subplot using the single_map function with the inputs: fig, win_prob, tie_prob, labels, and letters) This uses the default value,1, of the col argument.
+* The `single_map` function is used again with the first instance of the function being used as the fig argument to add trace to fig that has already been updated, win_prob2, tie_prob2, labels2, letters, and col = 2 so the trace is added the the subplot in the second column and not overwriting the first one
+
+
 ### `create_html`
-Generates an interactive HTML heatmap. Helper function for the `make_heatmap` function if user requests HTML image. 
+
 
 **Parameters:**
 - `win_prob` (`np.ndarray`): win probability data in an 8x8 array, formatted according to our `format_data` function specifications
@@ -323,7 +348,7 @@ Generates an interactive HTML heatmap. Helper function for the `make_heatmap` fu
 - `plotly.graph_objs._figure.Figure`: The generated Plotly figure.
 
 **Description:**
-
+Generates an interactive HTML heatmap. Helper function for the `make_heatmap` function if user requests HTML image. 
 - First flips the win and tie probabilities arrays (win_prob, tie_prob) for the purpose of the html figure creation
 - If the bundled = False argument exists (which is the default) that if block is entered,
     - A fig is created and uses the single_map function with the arguments: fig (subplots created outside of this function), win_prob, tie_prob, labels, and letters
