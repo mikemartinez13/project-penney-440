@@ -142,7 +142,6 @@ Used when making annotations in `make_annots` where `(filler = "")` and when for
 
 
 ### `format_data`
-Formats raw probability data into percentage values and cleans the diagonal.
 
 **Parameters:**
 - `array` (`np.ndarray`): Array of raw probability values.
@@ -151,6 +150,10 @@ Formats raw probability data into percentage values and cleans the diagonal.
 - `np.ndarray`: Formatted array with percentages and cleaned diagonal.
 
 **Description:**
+
+Formats raw probability data into percentage values and cleans the diagonal by using `fill_diag` on the array with `filler = None`. Done in order to display the diagonal as blank in the final visualization.
+
+
 
 ### `make_annots`
 Creates annotation strings from win and tie probabilities.
@@ -164,8 +167,11 @@ Creates annotation strings from win and tie probabilities.
 
 **Description:**
 
+The input arrays will need to already have gone through the `format_data` function or be in that format already. Loops through each array pulls each value at the respective places in each of the arrays. Appends them as strings in the form "win(tie)" to a new list that matches the order of probabilities depending on the Opponent guess or "My" guess. The `fill_diag` function is used on the new list with the `filler=“”`.
+
+
 ### `validate_existence`
-Checks for the existence of a required input.
+
 
 **Parameters:**
 - `input`: Input to validate.
@@ -174,9 +180,9 @@ Checks for the existence of a required input.
 - `TypeError`: If input is missing.
 
 **Description:**
+Checks for the existence of a required input. This function is used on required arguments if the user is passing in their own data. For instance it is used on win type since the heatmaps cannot be created without the win type specified. The function checks if the input is `None` and if so it raises a type error.
 
 ### `validate_numbers`
-Ensures all probability values are within the range [0, 1].
 
 **Parameters:**
 - `data` (`np.ndarray`): Input data array of 8x8 shape.
@@ -185,9 +191,9 @@ Ensures all probability values are within the range [0, 1].
 - `ValueError`: If any probability value exceeds 1.
 
 **Description:**
+Ensures that the data provided by the user is in raw format, meaning within the range [0, 1]. Loops through each array in the initial array and in each array and checks if a value is greater than 1. If any value is greater than 1, this means the probabilities are not in raw form and it raises a value error.
 
 ### `validate_size`
-Ensures the input data is an 8x8 array.
 
 **Parameters:**
 - `data` (`np.ndarray`): Input data array of 8x8 shape.
@@ -196,9 +202,10 @@ Ensures the input data is an 8x8 array.
 - `IndexError`: If data is not 8x8.
 
 **Description:**
+Ensures data given by the user fits the project's guidelines of an 8 x 8 array by checking if the shape of the data is 8x8. If it is not then an index error is raised.
 
 ### `validate_data`
-Validates the size and format of the input data.
+
 
 **Parameters:**
 - `data` (`np.ndarray`): Input data array of 8x8 shape.
@@ -208,9 +215,12 @@ Validates the size and format of the input data.
 - `ValueError`: If probability values are out of range.
 
 **Description:**
+Validates the size and format of the input data.
+* Uses a try and except block with the function `validate_size` and raises an index error if the array fails to satisfy the conditions of that function.
+* Uses another try and except block with the `validate_numbers` function and raises a value error if the array fails to satisfy the conditions of that function.
+
 
 ### `validate_tie_existence`
-Checks for the existence of tie data or annotations.
 
 **Parameters:**
 - `input_raw`: Raw tie data.
@@ -220,6 +230,7 @@ Checks for the existence of tie data or annotations.
 - `TypeError`: If both tie data and annotations are missing.
 
 **Description:**
+This function is used to check if there is an instance of tie data. For the png format the actual tie data (in range [0,1]) is not required for the visualization, but is necessary for the annotations that label the squares in the final heatmaps. Therefore the function checks if either tie data or annotation data exists since both are not necessary for the png format to run. If neither exists, a type error is raised since some form of the tie documentation is needed.
 
 
 ### `validate_and_process_input`
