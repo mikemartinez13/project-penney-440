@@ -1,4 +1,7 @@
-### The following defualt settings apply for png images:
+# Visualization
+### Authored by Kirin Mackey and Claire Kolman
+
+### The following default settings apply for png images:
 
 Figure size: single heatmap - height=6, width=6, bundled heatmap - height=6, width=12
 Title font size: 15
