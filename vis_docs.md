@@ -108,10 +108,13 @@ Generates bundled heatmaps based on the two different types of game types, win b
 ### `get_data`
 
 **Parameters:**
-- `path` (`str`): Path to the JSON data file.
+- `path` (`str`): Path to the JSON data file. `make_heatmap` calls `get_data` with `path = results/results.json`
+
+**Returns:**
+- `Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int]`: Processed data arrays and simulation count.
 
 **Description:**
-This function is used to access the default json file if the user doesn’t specify their own data in `make_heatmap` or `make_heatmap_package`.
+This function is used to access the results/results.json file if the user doesn’t specify their own data in `make_heatmap` or `make_heatmap_package`.
 - First checks to see if the file exists and if not it throws a file not found error
 - If the file exists it will be opened and read and the following data will be extracted from the dictionary within the json file
     - var_cards (8x8 array of raw win probabilities for card version)
@@ -120,19 +123,22 @@ This function is used to access the default json file if the user doesn’t spec
     - trick_ties (8x8 array of raw tie probabilities for trick version)
     - n (the number of iterations or decks played)
 
-**Returns:**
-- `Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int]`: Processed data arrays and simulation count.
-
 
 ### `fill_diag`
-Fills the diagonal of a matrix with a specified filler.
 
 **Parameters:**
 - `array` (`np.ndarray`): Input array.
 - `filler`: Value to fill the diagonal with.
 
 **Returns:**
-- `np.ndarray`: Array with filled diagonal.
+- `np.ndarray`: Array with the bottom left to top right diagonal filled with what is specified in the filler argument
+
+**Description:**
+
+Fills the diagonal of a matrix with a specified filler. Uses np.fill_diagonal to achieve the desired output, but flipping the array before and after is required to fill the correct diagonal.
+* Flips the data over the horizontal axis, uses np.fill_diagonal, flips it back over the horizontal axis
+Used when making annotations in `make_annots' where '(filler = "")` and when formatting the data in `format_data` where `(filler=None)`.
+
 
 ### `format_data`
 Formats raw probability data into percentage values and cleans the diagonal.
@@ -142,6 +148,8 @@ Formats raw probability data into percentage values and cleans the diagonal.
 
 **Returns:**
 - `np.ndarray`: Formatted array with percentages and cleaned diagonal.
+
+**Description:**
 
 ### `make_annots`
 Creates annotation strings from win and tie probabilities.
@@ -153,6 +161,8 @@ Creates annotation strings from win and tie probabilities.
 **Returns:**
 - `np.ndarray`: Array of annotation strings in the format "win(tie)".
 
+**Description:**
+
 ### `validate_existence`
 Checks for the existence of a required input.
 
@@ -161,6 +171,8 @@ Checks for the existence of a required input.
 
 **Raises:**
 - `TypeError`: If input is missing.
+
+**Description:**
 
 ### `validate_numbers`
 Ensures all probability values are within the range [0, 1].
@@ -171,6 +183,8 @@ Ensures all probability values are within the range [0, 1].
 **Raises:**
 - `ValueError`: If any probability value exceeds 1.
 
+**Description:**
+
 ### `validate_size`
 Ensures the input data is an 8x8 array.
 
@@ -179,6 +193,8 @@ Ensures the input data is an 8x8 array.
 
 **Raises:**
 - `IndexError`: If data is not 8x8.
+
+**Description:**
 
 ### `validate_data`
 Validates the size and format of the input data.
@@ -190,6 +206,8 @@ Validates the size and format of the input data.
 - `IndexError`: If data size is not 8x8.
 - `ValueError`: If probability values are out of range.
 
+**Description:**
+
 ### `validate_tie_existence`
 Checks for the existence of tie data or annotations.
 
@@ -199,6 +217,8 @@ Checks for the existence of tie data or annotations.
 
 **Raises:**
 - `TypeError`: If both tie data and annotations are missing.
+
+**Description:**
 
 
 ### `validate_and_process_input`
@@ -214,6 +234,8 @@ Validates and processes user input for heatmap generation.
 **Returns:**
 - `Tuple[int, str, Optional[np.ndarray], Optional[np.ndarray], np.ndarray]`: Processed inputs.
 
+**Description:**
+
 ### `make_heatmap_backend`
 Backend function to create a single heatmap using Seaborn.
 
@@ -228,6 +250,8 @@ Backend function to create a single heatmap using Seaborn.
 
 **Returns:**
 - `Tuple[plt.Figure, plt.Axes]`: Matplotlib figure and axes objects.
+
+**Description:**
 
 ### `make_heatmap_package_backend`
 Create a 1x2 grid of heatmaps based on the given data. Helper function for the `make_heatmap_package` function.
@@ -250,6 +274,8 @@ Create a 1x2 grid of heatmaps based on the given data. Helper function for the `
 **Returns:**
 - `Tuple[plt.Figure, plt.Axes]`: Matplotlib figure and axes objects with bundled heatmaps.
 
+**Description:**
+
 
 ### `single_map`
 Creates a single heatmap within a Plotly figure.
@@ -264,6 +290,8 @@ Creates a single heatmap within a Plotly figure.
 
 **Returns:**
 - `plotly.graph_objs._figure.Figure`: Updated Plotly figure with the heatmap added.
+
+**Description:**
 
   
 ### `create_html`
@@ -281,4 +309,6 @@ Generates an interactive HTML heatmap. Helper function for the `make_heatmap` fu
 
 **Returns:**
 - `plotly.graph_objs._figure.Figure`: The generated Plotly figure.
+
+**Description:**
 
