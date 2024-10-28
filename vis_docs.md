@@ -137,7 +137,8 @@ This function is used to access the results/results.json file if the user doesnâ
 
 Fills the diagonal of a matrix with a specified filler. Uses np.fill_diagonal to achieve the desired output, but flipping the array before and after is required to fill the correct diagonal.
 * Flips the data over the horizontal axis, uses np.fill_diagonal, flips it back over the horizontal axis
-Used when making annotations in `make_annots' where '(filler = "")` and when formatting the data in `format_data` where `(filler=None)`.
+
+Used when making annotations in `make_annots` where `(filler = "")` and when formatting the data in `format_data` where `(filler=None)`.
 
 
 ### `format_data`
