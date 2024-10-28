@@ -1,23 +1,25 @@
 # Visualization
 ### Authored by Kirin Mackey and Claire Kolman
 
+## Figure Settings
+
 ### The following default settings apply for png images:
 
-Figure size: single heatmap - height=6, width=6, bundled heatmap - height=6, width=12
-Title font size: 15
-Axes:
-X axis: title = “My Guesses”, title size = 12, tick size: 10
-Y axis:title = “Opponent Guesses’, title size= 12,  tick size = 10
-Annot (in each cell of heatmap) font size = 8
-Linewidth =0.5
-colormap= ‘Blues’
-fmt =’’ (used to aid in displaying the annots)
-Colorbar
-Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
-Outline width = 0.2
-Face color (background color) = #DBDBDB
-vmin = 0, vmax=100
-Wspace (for bundled) = 0.1
+- Figure size: single heatmap - height=6, width=6, bundled heatmap - height=6, width=12
+- Title font size: 15
+- Axes:
+         - X axis: title = “My Guesses”, title size = 12, tick size: 10
+         - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
+- Annot (text in each cell of heatmap) font size = 8
+- Linewidth = 0.5
+- colormap= ‘Blues’
+- fmt =’’ (used to aid in displaying the annots)
+- Colorbar
+         - Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
+         - Outline width = 0.2
+- Face color (background color) = #DBDBDB
+- vmin = 0, vmax=100
+- wspace (for bundled heatmaps) = 0.1
 
 ### The following default settings apply for html images:
 Figure size: single heatmap - (height = 750, width = 750), bundled heatmap - (height=675, width=1300)
