@@ -567,11 +567,11 @@ def make_heatmap_package(data1: Optional[np.ndarray]=None,
             fig, ax=make_heatmap_package_backend(data1=data1, data1_ties=data1_ties, data2=data2, 
                                    data2_ties=data2_ties,title1=title1, 
                                    title2=title2, n1=n1, n2=n2, win_type1=win_type1, win_type2=win_type2, labels1=labels1, labels2=labels2, letters=letters)
-            fig.savefig('figures/heatmap_packaged_'+win_type1+"_n"+str(n1)+win_type2+"_n"+str(n2)+".png", bbox_inches = 'tight', facecolor = 'white')
+            fig.savefig('figures/heatmap_packaged_'+win_type1+"_n"+str(n1)+"_"+win_type2+"_n"+str(n2)+".png", bbox_inches = 'tight', facecolor = 'white')
 
         if format == 'html':
             html_b=create_html(bundled=True, win_prob=data1, tie_prob=data1_ties, title1=title1, labels=labels1, win_prob2=data2, tie_prob2=data, labels2=labels2, n2=n2, title2=title2, letters=letters)
-            html_b.write_html('figures/heatmap_packaged_'+win_type1+"_n"+str(n1)+win_type2+"_n"+str(n2)+".html")
+            html_b.write_html('figures/heatmap_packaged_'+win_type1+"_n"+str(n1)+"_"+win_type2+"_n"+str(n2)+".html")
 
             return html_b
     else:
