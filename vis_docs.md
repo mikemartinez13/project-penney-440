@@ -44,6 +44,20 @@
 - zmin=0, zmax=100
 - Plot background color = #DBDBDB
 
+## Necessary Imports
+- `import matplotlib.pyplot as plt`
+- `import seaborn as sns`
+- `import numpy as np`
+- `from typing import Optional`
+- `import random`
+- `import json`
+- `import os`
+- `import plotly`
+- `import plotly.graph_objects as go`
+- `from plotly.subplots import make_subplots`
+- `from typing import Union`
+- `from typing import Tuple`
+
 ## Main Functions
 
 ### `make_heatmap`
