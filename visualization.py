@@ -316,7 +316,7 @@ def make_heatmap(data: Optional[np.ndarray]=None,
         
         '''
         try:
-            var_cards,var_tricks, card_ties, trick_ties, n_default = get_data('results/results.json') ##right now data I already have saved 
+            var_cards,var_tricks, card_ties, trick_ties, n_default = get_data('results/results.json') 
         except Exception as e:
             raise FileNotFoundError('results/results.json does not exist. You should run the simulate data function') from e
 
