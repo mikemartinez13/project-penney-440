@@ -7,30 +7,31 @@ import time
 import os
 import pandas as pd
 from functools import wraps
+from simulation import generate_data, generate_sequence
 
-def generate_sequence(seed: int, seq: list) -> str:
-    '''Takes unshuffled deck as input and outputs string version of shuffled deck.'''
-    np.random.seed(seed)
-    np.random.shuffle(seq)
-    return ''.join(map(str,seq))
+# def generate_sequence(seed: int, seq: list) -> str:
+#     '''Takes unshuffled deck as input and outputs string version of shuffled deck.'''
+#     np.random.seed(seed)
+#     np.random.shuffle(seq)
+#     return ''.join(map(str,seq))
 
-def generate_data(n):
-    '''Takes in number of simulations to be run, and shuffles deck n times'''
-    if(os.path.exists("data/deck_data.npy")):
-        deck_data = np.load("data/deck_data.npy", allow_pickle = True)
-    else:
-        deck_data = np.zeros((0, 2))
-    seed = deck_data.shape[0] # seeds = run number (i.e. length)
-    sequence = [1] * 26 + [0] * 26 # 26 black and red cards
+# def generate_data(n):
+#     '''Takes in number of simulations to be run, and shuffles deck n times'''
+#     if(os.path.exists("data/deck_data.npy")):
+#         deck_data = np.load("data/deck_data.npy", allow_pickle = True)
+#     else:
+#         deck_data = np.zeros((0, 2))
+#     seed = deck_data.shape[0] # seeds = run number (i.e. length)
+#     sequence = [1] * 26 + [0] * 26 # 26 black and red cards
     
-    for x in range(n):
-        np.random.seed(seed)
+#     for x in range(n):
+#         np.random.seed(seed)
 
-        shuffled_deck = generate_sequence(seed, sequence)
+#         shuffled_deck = generate_sequence(seed, sequence)
         
-        new_row = np.array([seed, shuffled_deck], dtype=object)
-        deck_data = np.vstack([deck_data, new_row])
-        seed+=1
+#         new_row = np.array([seed, shuffled_deck], dtype=object)
+#         deck_data = np.vstack([deck_data, new_row])
+#         seed+=1
 
     np.save("data/deck_data.npy", deck_data)
     deck_data = np.array(deck_data, dtype=object)

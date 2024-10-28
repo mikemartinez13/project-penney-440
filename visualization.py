@@ -119,7 +119,8 @@ def get_data(path: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray,
     if not os.path.exists(path):
         raise FileNotFoundError('File does not exist. See more details below.')
     with open(path, 'r') as openfile:
-    	json_object = json.load(openfile) 	# Reading from json file
+    	json_object = json.load(openfile) 	# Reading from json file      
+
     var_cards = np.array(json_object['cards'])
     var_tricks = np.array(json_object['tricks'])
     card_ties= np.array(json_object['card_ties'])
@@ -479,7 +480,7 @@ def make_heatmap_package_backend(data1: np.ndarray,
                         ) -> [plt.Figure, plt.Axes]:
     
     '''
-    Create a 1x2 grid of heatmaps based on the given data
+    Create a 1x2 grid of heatmaps based on the given data.
     '''
 
 
