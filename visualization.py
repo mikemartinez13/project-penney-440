@@ -132,7 +132,7 @@ def format_data(array: np.ndarray) -> np.ndarray:
     Cleans the array of probabilities in decimal form to return whole numbers 
     representing the percent out of 100 and fill the 'nonsense' diagonal with None 
     in order to display the diagonal as blank in the final visualization. 
-    --argue that we do the rounding here (since this data is fed into make_heatmap)so if two squares are 0 and 0, they will have the exact same color
+    The rounding is done here before getting passed into make_heatmap so that if two squares represent the same integer (such as 0 and 0) on the annotations, they will have the exact same color.
     '''
     temp=np.round((array)*100,0)
     final = fill_diag(temp, None)
