@@ -234,57 +234,81 @@ This function is used to check if there is an instance of tie data. For the png 
 
 
 ### `validate_and_process_input`
-Validates and processes user input for heatmap generation.
 
 **Parameters:**
-- `n` (`Optional[int]`): Number of simulations.
-- `win_type` (`Optional[str]`): Type of win metric.
+- `n` (`Optional[int]`): Number of simulations or decks.
+- `win_type` (`Optional[str]`): Type of win metric ('cards' or 'tricks').
 - `data_ties` (`Optional[np.ndarray]`): Tie probability data.
-- `annots` (`Optional[np.ndarray]`): Annotations.
+- `annots` (`Optional[np.ndarray]`): Annotations, or labels, meant to be displayed in each cell of the heatmap.
 - `data` (`Optional[np.ndarray]`): Win probability data.
 
 **Returns:**
-- `Tuple[int, str, Optional[np.ndarray], Optional[np.ndarray], np.ndarray]`: Processed inputs.
+- `Tuple[int, str, Optional[np.ndarray], Optional[np.ndarray], np.ndarray]`: Processed inputs for `n`, `win_type`, `data_ties`, `annots`, and `data`.
 
 **Description:**
+Validates and processes user input for heatmap generation.
+-  Note: all parameters are optional because this function is part of validating the user input. If any validation test fails error messages will appear to the user.
+-  This function is run in both `make_heatmap` and `make_heatmap_package`.
+-  It first runs `validate_existence(n)` and and `validate_existence(win_type)`. They are needed in any case the user wants to create a visualization from data.
+-  Then `validate_tie_existence(data_ties, annots)` is run, testing if tie data is indicated in any form. If the format is .png, either `data_ties` or `annots` have to exist.
+-  Next the function `validate_data(data)`, where data is the array of win probabilities, is executed, testing if the data passed in is of the correct raw format and size.
+-  Then `format(data)` is called on `data` to format it properly for `make_heatmap_backend` and `make_annots`.
+-  If the user passed in `data_ties`, the function checks if is  in the correct raw format and size with `validate_data(data_ties) `and formats it properly for `make_annots(data, data_ties)` and create_html (if the user specified format =’html’) executed outside this function. It formats it by calling `format_data(data_ties)`.
+-  If the user passed in `annots` and `data_ties` in `make_heatmap`, the `annots` passed in will be overwritten as `data` and `data_ties` are more accurate in representing the winning and tying.
+-  Regardless of whether the user passed in `annots` (without `data_ties`) or `data_ties`, `validate_size(annots)` is executed, making sure the `annots` are of the proper size. 
+
+
 
 ### `make_heatmap_backend`
-Backend function to create a single heatmap using Seaborn.
 
 **Parameters:**
-- `data` (`np.ndarray`): Formatted win probability data.
+- `data` (`np.ndarray`): an 8 x8 array with the win probabilities in the correct format (specified in `format_data`)
 - `annots` (`np.ndarray`): Annotations.
-- `title` (`str`): Title of the heatmap.
-- `hide_y` (`bool`, optional): Hide y-axis labels. Defaults to `False`.
-- `cbar_single` (`bool`, optional): Show colorbar. Defaults to `True`.
-- `ax` (`plt.Axes`, optional): Matplotlib Axes object.
+- `title` (`str`): Title of the heatmap either set to a user input or “My Chance of Winning” followed by ‘By Cards” or “By Tricks” and “(n=[user specified or from results/result.json])”
+- `hide_y` (`bool`, optional): Hide y-axis ticks labels, tick marks, and axis title. Defaults to `False`. Set to `True` in `make_heatmap_package_backend` to make a bundled version of two heatmaps.
+- `cbar_single` (`bool`, optional): a boolean set to `True` by default.  In the case one heatmap is made, it makes a colorbar with settings meant for a single heatmap. This is set to `False` when this function is called in `make_heatmap_package_backend` where other colorbar settings used
+- `ax` (`plt.Axes`, optional): Matplotlib Axes object set to None by default if a single heatmap is made. It is set to a specific axis in `make_heatmap_package_backend` to place a heatmap in a subplot for a bundled heatmaps visualization.
 - `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
 
 **Returns:**
 - `Tuple[plt.Figure, plt.Axes]`: Matplotlib figure and axes objects.
 
 **Description:**
+Backend function to create a single heatmap using Seaborn.
+* Checks if no axis is passed in, meaning a single heatmap is created. If one is, then the parent figure is retrieved with ax.get_figure()
+* The proper tick labels are set according to `letters=True` or `letters=False` (where numbers are used instead to represent the card sequences)
+* `sns.heatmap` is called with the proper data, annotations, axis, and additional png figure settings described above. Axis labels are also set according to the png figure settings described above.
+* `ax.set_facecolor('#DBDBDB')` is called to ensure the diagonal, where the sequences  “My Guess” and “Opponent Guess” are the same, is gray.
+* If `cbar_single = True`, an appropriate colorbar is made and placed according to the position noted in the png figure settings.
+* The plot title is set accordingly
+* If `hide_y= True`, meaning `make_heatmap_backend` is making the plot for the 2nd subplot in the, the y axis label and tick marks are hidden.
 
 ### `make_heatmap_package_backend`
-Create a 1x2 grid of heatmaps based on the given data. Helper function for the `make_heatmap_package` function.
 
 **Parameters:**  
 - `data1` (`np.ndarray`): Win probability data for the first set of data in an 8x8 array, formatted according to our `format_data` function specifications
 - `data2` (`np.ndarray`): Win probability data for the second set of data in an 8x8 array, formatted according to our `format_data` function specifications
 - `title1` (`str`): Title for the first heatmap.
 - `title2` (`str`): Title for the second heatmap.
-- `n1` (`int`): Number of simulations for the first dataset.
-- `n2` (`int`): Number of simulations for the second dataset.
+- `n1` (`int`): Number of simulations (or decks) for the first dataset.
+- `n2` (`int`): Number of simulations (or decks) for the second dataset.
 - `win_type1` (`str`): Win type for the first dataset. 
 - `win_type2` (`str`): Win type for the second dataset.
-- `labels1` (`Optional[np.ndarray]`): Annotations for the first dataset.
-- `labels2` (`Optional[np.ndarray]`): Annotations for the second dataset.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
+- `labels1` (np.ndarray): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data1_ties` or user specified.
+- `labels2` (np.ndarray): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data2_ties` or user specified.
+- `letters` (`bool`): Use letter sequences to denote the card sequences for tick labels. Defaults to `True`, if `False` numbers are used.
 
 **Returns:**
 - `Tuple[plt.Figure, plt.Axes]`: Matplotlib figure and axes objects with bundled heatmaps.
 
 **Description:**
+Create a 1x2 grid of heatmaps based on the given data. Helper function for the `make_heatmap_package` function.
+* The width space between the heatmaps is assigned with gridspec_kw (noted in the png figure settings above)
+* An empty figure with 2 subplots is made, according to the figure sizes noted in the png settings above with `fig, ax = plt.subplots(1, 2, figsize=(FIG_WIDE*2, FIG_HIGH),  gridspec_kw=gridspec_kw)`
+* The final titles for each heatmap are made, using `title1`, `title2`, `n1`, `n2`, `win_type1`, and `win_type2`. For instance, if `title1` is set to “My Chance of Winning” (by default), `n1 = 1000000` and `win_type1=’cards’`, the new title for the first subplot will be “My Chance of Winning (By Cards)\n(n=1000000)”.
+* `make_heatmap_backend(data1, ax=ax[0],  title=title1, annots=labels1, cbar_single=False, letters = letters`) is called, meaning the first subplot is made using the arguments corresponding to the first set of data and placed in the first position (`ax[0]`) in the initial empty figure created.
+* `make_heatmap_backend(data2, ax=ax[1], annots=labels2, title=title2, cbar_single=False, hide_y=True,  letters = letters)` is called, meaning the second subplot is made using the arguments corresponding to the second set of data and placed in the second position (`ax[1]`) in the initial empty figure created.
+* A colorbar is made for the bundled heat maps visualization, where specific details are found in the png figure settings described above
 
 
 ### `single_map`
