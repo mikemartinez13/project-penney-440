@@ -307,7 +307,7 @@ def make_heatmap(data: Optional[np.ndarray]=None,
             return single_html
         
 
-    else: ##if data and any other arguments that would imply the user has thier own data == None:
+    else: ##if data and any other arguments that would imply the user has their own data == None:
         '''
         If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the results/results.json file.
         It accesses that data through the get_data(path) function.
