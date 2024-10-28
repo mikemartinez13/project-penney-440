@@ -26,21 +26,21 @@
 - Title font size: 22
 - Title spacing: single - (x = 0.5, y = 0.94) bundle - (y = 1.05)
 - Axes:
-         * X axis: title = 'My Guesses', title size=18, tick size=16
-         * Y axis: title = 'Opponent Guesses', title size=18, tick size=16
-         * showgrid = False for and x and y axes
+    - X axis: title = 'My Guesses', title size=18, tick size=16
+    - Y axis: title = 'Opponent Guesses', title size=18, tick size=16
+    - showgrid = False for and x and y axes
 - xgap and ygap both = 1
 - Colors: ‘blues’
 - Tool tip text:
-         * Me: [x-value], Opponent: [y-value]
-         * My Win Probability: [win_prob]
-         * Tie Probability: [tie_prob], name = "",
+    - Me: [x-value], Opponent: [y-value]
+    - My Win Probability: [win_prob]
+    - Tie Probability: [tie_prob], name = "",
 - hoverongaps = False                       
-- Colorbar: 
-         * Tick positions [0, 20, 40, 60, 80, 100]
-         * Tick labels [0, 20, 40, 60, 80, 100]
-         * outlinewidth=1
-         * outlinecolor="#E7E7E7"
+- Colorbar:
+    - Tick positions [0, 20, 40, 60, 80, 100]
+    - Tick labels [0, 20, 40, 60, 80, 100]
+    - outlinewidth=1
+    - outlinecolor="#E7E7E7"
 - zmin=0, zmax=100
 - Plot background color = #DBDBDB
 
