@@ -310,17 +310,26 @@ Creates a single heatmap within a Plotly figure.
 Generates an interactive HTML heatmap. Helper function for the `make_heatmap` function if user requests HTML image. 
 
 **Parameters:**
-- `win_prob` (`np.ndarray`): Array of win probabilities.
-- `tie_prob` (`np.ndarray`): Array of tie probabilities.
-- `labels` (`np.ndarray`): Array of annotations.
-- `n` (`int`): Number of simulations.
+- `win_prob` (`np.ndarray`): win probability data in an 8x8 array, formatted according to our `format_data` function specifications
+- `tie_prob` (`np.ndarray`): tie probability data also formatted and in an 8x8 array
+- `labels` (`np.ndarray`): 8 x8 array of annotations to denote the text each square in the heatmaps.
+- `n` (`int`): Number of decks.
 - `title` (`str`): Title of the heatmap.
 - `bundled` (`bool`, optional): Whether to bundle multiple heatmaps. Defaults to `False`.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
-- `**kwargs`: Additional keyword arguments for customization.
+- `letters` (`bool`, optional): Boolean for letters or numbers on the axes. Defaults to 'True' to have letters on the axes.
+- `**kwargs`: Additional keyword arguments win_prob2, tie_prob2, labels2, n2, title2. The format of these optional arguments is the same as the equivalent arguments for the first set of data above.
 
 **Returns:**
 - `plotly.graph_objs._figure.Figure`: The generated Plotly figure.
 
 **Description:**
+
+- First flips the win and tie probabilities arrays (win_prob, tie_prob) for the purpose of the html figure creation
+- If the bundled = False argument exists (which is the default) that if block is entered,
+    - A fig is created and uses the single_map function with the arguments: fig (subplots created outside of this function), win_prob, tie_prob, labels, and letters
+    - The sizes and fonts are updated according to the settings above
+- If bundled = True, the else block is entered
+    - The second set of win and tie data is flipped for the purpose of creating the figure
+    - A fig with 2 subplots is created and the bundled_maps function is used to add data to the subplots with the arguments: fig, win_prob, tie_prob, labels, win_prob2, tie_prob2, labels2, letters, and col = 2 for the purpose of creating 2 plots
+    - The sizes and fonts are updated according to the html figure settings above
 
