@@ -39,13 +39,57 @@
 - Colorbar:
     - Tick positions [0, 20, 40, 60, 80, 100]
     - Tick labels [0, 20, 40, 60, 80, 100]
-    - outlinewidth=1
-    - outlinecolor="#E7E7E7"
+    - outlinewidth = 1
+    - outlinecolor = #E7E7E7
 - zmin=0, zmax=100
 - Plot background color = #DBDBDB
 
+## Main Functions
 
-## Functions
+### `make_heatmap`
+Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both will be created if win_type is not specified. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` does not exist, an error message will appear.
+
+**Parameters:**
+- `data` (`Optional[np.ndarray]`): Win probability data.
+- `data_ties` (`Optional[np.ndarray]`): Tie probability data.
+- `annots` (`Optional[np.ndarray]`): Annotations.
+- `n` (`Optional[int]`): Number of simulations.
+- `win_type` (`Optional[str]`): Type of win metric.
+- `title` (`str`, optional): Title of the heatmap. Defaults to `"My Chance of Winning"`.
+- `hide_y` (`bool`, optional): Hide y-axis labels. Defaults to `False`.
+- `cbar_single` (`bool`, optional): Show colorbar for single heatmap. Defaults to `True`.
+- `ax` (`plt.Axes`, optional): Matplotlib Axes object.
+- `bundle` (`bool`, optional): Bundle multiple heatmaps. Defaults to `False`.
+- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
+- `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
+
+**Returns:**
+- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure.
+
+### `make_heatmap_package`
+Generates bundled heatmaps based on the two different types of game types, win by cards and win by "tricks". 
+
+**Parameters:**
+- `data1` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the first set of data.
+- `data2` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the second set of data.
+- `title1` (`Optional[str]`): Title for the first heatmap. Defaults to `"My Chance of Winning"`.
+- `title2` (`Optional[str]`): Title for the second heatmap. Defaults to `"My Chance of Winning"`.
+- `n1` (`Optional[int]`): Number of simulations for the first dataset.
+- `n2` (`Optional[int]`): Number of simulations for the second dataset.
+- `win_type1` (`Optional[str]`): Win type for the first dataset.
+- `win_type2` (`Optional[str]`): Win type for the second dataset.
+- `data1_ties` (`Optional[np.ndarray]`): Tie data for the first dataset.
+- `data2_ties` (`Optional[np.ndarray]`): Tie data for the second dataset.
+- `labels1` (`Optional[np.ndarray]`): Annotations for the first dataset.
+- `labels2` (`Optional[np.ndarray]`): Annotations for the second dataset.
+- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
+- `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
+
+**Returns:**
+- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated bundled heatmap figure.
+
+
+## Helper Functions
 
 ### `get_data`
 Retrieves and processes data from a JSON file.
@@ -149,51 +193,6 @@ Validates and processes user input for heatmap generation.
 
 **Returns:**
 - `Tuple[int, str, Optional[np.ndarray], Optional[np.ndarray], np.ndarray]`: Processed inputs.
-
-
-### `make_heatmap`
-Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both will be created if win_type is not specified. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` does not exist, an error message will appear.
-
-**Parameters:**
-- `data` (`Optional[np.ndarray]`): Win probability data.
-- `data_ties` (`Optional[np.ndarray]`): Tie probability data.
-- `annots` (`Optional[np.ndarray]`): Annotations.
-- `n` (`Optional[int]`): Number of simulations.
-- `win_type` (`Optional[str]`): Type of win metric.
-- `title` (`str`, optional): Title of the heatmap. Defaults to `"My Chance of Winning"`.
-- `hide_y` (`bool`, optional): Hide y-axis labels. Defaults to `False`.
-- `cbar_single` (`bool`, optional): Show colorbar for single heatmap. Defaults to `True`.
-- `ax` (`plt.Axes`, optional): Matplotlib Axes object.
-- `bundle` (`bool`, optional): Bundle multiple heatmaps. Defaults to `False`.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
-- `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
-
-**Returns:**
-- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure.
-
-
-### `make_heatmap_package`
-Generates bundled heatmaps based on the two different types of game types, win by cards and win by "tricks". 
-
-**Parameters:**
-- `data1` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the first set of data.
-- `data2` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the second set of data.
-- `title1` (`Optional[str]`): Title for the first heatmap. Defaults to `"My Chance of Winning"`.
-- `title2` (`Optional[str]`): Title for the second heatmap. Defaults to `"My Chance of Winning"`.
-- `n1` (`Optional[int]`): Number of simulations for the first dataset.
-- `n2` (`Optional[int]`): Number of simulations for the second dataset.
-- `win_type1` (`Optional[str]`): Win type for the first dataset.
-- `win_type2` (`Optional[str]`): Win type for the second dataset.
-- `data1_ties` (`Optional[np.ndarray]`): Tie data for the first dataset.
-- `data2_ties` (`Optional[np.ndarray]`): Tie data for the second dataset.
-- `labels1` (`Optional[np.ndarray]`): Annotations for the first dataset.
-- `labels2` (`Optional[np.ndarray]`): Annotations for the second dataset.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
-- `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
-
-**Returns:**
-- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated bundled heatmap figure.
-
 
 ### `make_heatmap_backend`
 Backend function to create a single heatmap using Seaborn.
