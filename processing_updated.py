@@ -33,9 +33,9 @@ from simulation import generate_data, generate_sequence
 #         deck_data = np.vstack([deck_data, new_row])
 #         seed+=1
 
-    np.save("data/deck_data.npy", deck_data)
-    deck_data = np.array(deck_data, dtype=object)
-    return deck_data
+    # np.save("data/deck_data.npy", deck_data)
+    # deck_data = np.array(deck_data, dtype=object)
+    # return deck_data
 
 def run_game(sequence: int, p1_seq: str, p2_seq: str) -> Tuple[int, int, str, int, int, str, int, int]:
     if p1_seq == p2_seq:
@@ -63,7 +63,7 @@ def run_game(sequence: int, p1_seq: str, p2_seq: str) -> Tuple[int, int, str, in
 
     return p1score_trick, p2score_trick, trick_outcome, p1score_cards, p2score_cards, cards_outcome, tie_card, tie_trick
 
-def play(n) -> np.ndarray:
+def play(n: int) -> np.ndarray:
     results = []
     patterns = ['111', '110', '101', '100', '011', '010', '001', '000']
     deck_data = generate_data(n)
@@ -134,10 +134,10 @@ def calculate_probabilities(results: np.ndarray) -> dict:
             'tie_card_probability': tie_card_prob
         }
 
-    with open("player2_probabilities.json", "w") as prob_file:
+    with open("results/results.json", "w") as prob_file:
         json.dump(probabilities, prob_file)
 
 
 
 if __name__ == "__main__":
-    play(10)
+    play(100000)

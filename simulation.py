@@ -27,6 +27,8 @@ def generate_data(n):
         seed+=1
 
     np.save("data/deck_data.npy", deck_data)
+    deck_data = np.array(deck_data, dtype=object)
+    return deck_data
     
 ##########################
 ######## Testing #########
