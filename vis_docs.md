@@ -15,8 +15,8 @@
 - colormap= ‘Blues’
 - fmt =’’ (used to aid in displaying the annots)
 - Colorbar
-         * Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
-         * Outline width = 0.2
+-     Position for single = [.95, 0.11, 0.035, .77], position for bundled = [.93, 0.11, 0.02, .77]
+-     Outline width = 0.2
 - Face color (background color) = #DBDBDB
 - vmin = 0, vmax=100
 - wspace (for bundled heatmaps) = 0.1
