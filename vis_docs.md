@@ -50,6 +50,9 @@ Retrieves and processes data from a JSON file.
 **Parameters:**
 - `path` (`str`): Path to the JSON data file.
 
+**Description:**
+
+
 **Returns:**
 - `Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int]`: Processed data arrays and simulation count.
 
