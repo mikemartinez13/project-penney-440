@@ -106,13 +106,19 @@ Generates bundled heatmaps based on the two different types of game types, win b
 ## Helper Functions
 
 ### `get_data`
-Retrieves and processes data from a JSON file.
 
 **Parameters:**
 - `path` (`str`): Path to the JSON data file.
 
 **Description:**
-
+This function is used to access the default json file if the user doesn’t specify their own data in `make_heatmap` or `make_heatmap_package`.
+- First checks to see if the file exists and if not it throws a file not found error
+- If the file exists it will be opened and read and the following data will be extracted from the dictionary within the json file
+    - var_cards (8x8 array of raw win probabilities for card version)
+    - var_tricks (8x8 array of raw win probabilities for trick version)
+    - card_ties (8x8 array of raw tie probabilities for card version)
+    - trick_ties (8x8 array of raw tie probabilities for trick version)
+    - n (the number of iterations or decks played)
 
 **Returns:**
 - `Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int]`: Processed data arrays and simulation count.
