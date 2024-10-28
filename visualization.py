@@ -246,7 +246,7 @@ def validate_and_process_input(n: Optional[int]=None,
         try:
             validate_data(data_ties)
         except Exception as e:
-            raise ValueError('Your data about tieing the game is either of the wrong size or format.') from e ##ValueError because function recieved data of proper type but inappropriate value
+            raise ValueError('Your data about tying the game is either of the wrong size or format.') from e ##ValueError because function recieved data of proper type but inappropriate value
         data_ties=format_data(data_ties)
         ##data is now sufficiently validated to make annots
         annots=make_annots(data, data_ties) ##if the user had other annots they are overwritten, as the tie and true data are more accurate 
