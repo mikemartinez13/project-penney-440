@@ -1,6 +1,8 @@
 # Visualization
 ### Authored by Kirin Mackey and Claire Kolman
 
+Documentation for `visualization.py`:
+
 ## Figure Settings
 
 ### The following default settings apply for png images:
