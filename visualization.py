@@ -119,13 +119,14 @@ def get_data(path: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray,
     if not os.path.exists(path):
         raise FileNotFoundError('File does not exist. See more details below.')
     with open(path, 'r') as openfile:
-    	json_object = json.load(openfile) 	# Reading from json file      
+        json_object = json.load(openfile) 	# Reading from json file      
 
     var_cards = np.array(json_object['cards'])
     var_tricks = np.array(json_object['tricks'])
-    card_ties= np.array(json_object['card_ties'])
-    trick_ties = np.array((json_object['trick_ties']))
+    card_ties= np.array(json_object['cards_ties'])
+    trick_ties = np.array((json_object['tricks_ties']))
     n = json_object['n']
+
     return var_cards,var_tricks, card_ties, trick_ties, n
 
 def format_data(array: np.ndarray) -> np.ndarray:

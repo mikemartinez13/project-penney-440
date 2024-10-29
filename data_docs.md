@@ -45,7 +45,7 @@ The `generate_data` function generates shuffled deck data for a specified number
 
 ---
 
-## Helper functions from `visualization.py`:
+## Helper functions from `processing_updated.py`:
 
 ### `run_game`
 

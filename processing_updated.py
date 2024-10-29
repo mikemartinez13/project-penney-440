@@ -74,7 +74,8 @@ def play(n: int) -> np.ndarray:
                 results.append([seed, shuffled_deck, p1_seq, p2_seq, *result])
     results= np.array(results, dtype=object)
     
-    calculate_probabilities(results)
+    probs = calculate_probabilities(results)
+    convert_probabilities(probs, patterns, n)
 
 def calculate_probabilities(results: np.ndarray) -> dict:
     
@@ -134,10 +135,47 @@ def calculate_probabilities(results: np.ndarray) -> dict:
             'tie_card_probability': tie_card_prob
         }
 
-    with open("results/results.json", "w") as prob_file:
-        json.dump(probabilities, prob_file)
+    # with open("results/results.json", "w") as prob_file:
+    #     json.dump(probabilities, prob_file)
 
+    return probabilities
+
+
+def convert_probabilities(original_data, patterns, n):
+    # Rework our results.json to match the specified format
+    num_patterns = len(patterns)
+    cards_matrix = np.zeros((num_patterns, num_patterns))
+    tricks_matrix = np.zeros((num_patterns, num_patterns))
+    cards_ties_matrix = np.zeros((num_patterns, num_patterns))
+    tricks_ties_matrix = np.zeros((num_patterns, num_patterns))
+
+    # Map patterns to indices for filling matrices
+    pattern_to_index = {pattern: idx for idx, pattern in enumerate(patterns)}
+    
+    # Populate matrices based on the original data
+    for key, values in original_data.items():
+        p1_seq, p2_seq = key.split('-')
+        i, j = pattern_to_index[p1_seq], pattern_to_index[p2_seq]
+        
+        cards_matrix[i][j] = values['p2_win_card_probability']
+        tricks_matrix[i][j] = values['p2_win_trick_probability']
+        cards_ties_matrix[i][j] = values['tie_card_probability']
+        tricks_ties_matrix[i][j] = values['tie_trick_probability']
+
+    # Convert matrices to lists for JSON format
+    json_structure = {
+        "cards": cards_matrix.tolist(),
+        "tricks": tricks_matrix.tolist(),
+        "cards_ties": cards_ties_matrix.tolist(),
+        "tricks_ties": tricks_ties_matrix.tolist(),
+        "n": n  # Or provide the total number of games as needed
+    }
+
+    with open("results/results.json", "w") as json_file:
+        json.dump(json_structure, json_file, indent=4)
+
+    return json_structure
 
 
 if __name__ == "__main__":
-    play(100000)
+    play(1000)

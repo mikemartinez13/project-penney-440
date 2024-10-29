@@ -172,6 +172,9 @@ def convert_probabilities(original_data, patterns, n):
     #take our version and put it in the json format ron wants
     converted_data = json_structure
 
+#save to JSON
+with open("results/results.json", "w") as json_file:
+    json.dump(converted_data, json_file, indent=4)
     #save to JSON
     with open("results.json", "w") as json_file:
         json.dump(converted_data, json_file, indent=4)

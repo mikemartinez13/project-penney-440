@@ -9,13 +9,23 @@ Note that our simulation runs two variations of Penney's Game, which have differ
 1. For version 1, players are scored based on the number of "tricks" they earn. For example, if a player's sequence "Red, Black, Black" appears, the deck is cleared and the player earns 1 point. 
 2. For version 2, players are scored based on the number of cards they earn. If a player's sequence "Red, Black, Black" appears, the deck is cleared and the player earns _all_ the cards in the deck. 
 
+For mathematical explanation for why Penney's Game works, see [Nishiyama's paper](https://www.ijpam.eu/contents/2010-59-3/10/10.pdf)
+
+---
+
 To run the simulation, first clone the repository: 
 
 ```git clone https://github.com/mikemartinez13/project-penney-440.git```
 
+Next, you can get all the necessary imports from the `env.yml` file. If you have conda installed, run
+
+`conda env create -f env.yml`
+
+in your command line to get all the necessary imports.
+
 Next, open "main.ipynb" and run all of the cells. Below is a list of functions and their parameters:
 
-### `play(path, n, seed=0)` 
+### `play` 
 **Parameters:** 
 - `path (str)` String of the path of where you would like to store your data
 - `n (int)`, The number of games you would like to run,
