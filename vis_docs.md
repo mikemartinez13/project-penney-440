@@ -60,6 +60,26 @@ Documentation for `visualization.py`:
 - `from typing import Union`
 - `from typing import Tuple`
 
+## Data Input (Array Structure)
+For data to be displayed correctly in the image(s), the arrays in the json file follow a specific structure. If the user is passing their own data in to the visualization functions, they not only need to make sure their probabilities are in raw form (between 0,1), their data also needs to match this structure below.
+
+Order of the array: 
+
+Opponent’s Guess (y-axis) is ordered from RRR(111) to BBB(000) top to bottom [rows, each array 0-7], and My Guess (x-axis) is ordered from BBB(000) to RRR(111) from left to right [columns, each position inside of the arrays 0-7].
+
+Ex:
+
+[[(RRR,BBB), (RRR,BBR)...(RRR,RRB), (RRR,RRR)],
+
+[(RRB,BBB), (RRB,BBR)...(RRB,RRB), (RRB,RRR)],
+
+...
+
+[(BBR,BBB), (BBR,BBR)...(BBR,RRB), (BBR,RRR)],
+
+[(BBB,BBB), (BBB,BBR)...(BBB,RRB), (BBB,RRR)]]
+
+
 ## Main Functions
 
 ### `make_heatmap`
