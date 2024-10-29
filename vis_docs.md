@@ -100,31 +100,48 @@ If `format = ‘png’` a bundled version of the default win by card (1st subplo
 
        - An individual win by cards visualization is created with `make_heatmap_backend` and saved as  'figures/heatmap_cards _n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
        - An individual win by tricks visualization is created with `make_heatmap_backend` and saved as  'figures/heatmap_tricks_n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
-       - The bundled figure and axes object (only if `format=’png’) are returned.
+       - The bundled figure and axes object (only if `format=’png’`) are returned.
 
 
 
 ### `make_heatmap_package`
-Generates bundled heatmaps based on the two different types of game types, win by cards and win by "tricks". 
+Note: Optional type hinting is used to handle the cases in which the user wants to use data stored in results.json, or calls make_heatmap_package with their own data where then our validation process needs to be satisfied and raises errors accordingly.
 
 **Parameters:**
-- `data1` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the first set of data.
-- `data2` (`Optional[np.ndarray]`): 8x8 array of win probabilities for the second set of data.
-- `title1` (`Optional[str]`): Title for the first heatmap. Defaults to `"My Chance of Winning"`.
-- `title2` (`Optional[str]`): Title for the second heatmap. Defaults to `"My Chance of Winning"`.
-- `n1` (`Optional[int]`): Number of simulations for the first dataset.
-- `n2` (`Optional[int]`): Number of simulations for the second dataset.
-- `win_type1` (`Optional[str]`): Win type for the first dataset.
-- `win_type2` (`Optional[str]`): Win type for the second dataset.
-- `data1_ties` (`Optional[np.ndarray]`): Tie data for the first dataset.
-- `data2_ties` (`Optional[np.ndarray]`): Tie data for the second dataset.
-- `labels1` (`Optional[np.ndarray]`): Annotations for the first dataset.
-- `labels2` (`Optional[np.ndarray]`): Annotations for the second dataset.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
+- `data1` (`Optional[np.ndarray]`): an 8 x8 array with the win probabitlies for the first set of data in raw format (range of [0,1])
+- `data2` (`Optional[np.ndarray]`): an 8 x8 array with the win probabitlies for the second set of data in raw format (range of [0,1])
+- `title1` (`Optional[str]`): Title for the first heatmap later modified to indicate win type and n. Defaults to “My Chance of Winning” but the user can modify it to represent team data such as “My Chance of Winning Team 1”
+- `title2` (`Optional[str]`): Title for the second heatmap later modified to indicate win type and n. Defaults to “My Chance of Winning” but the user can modify it to represent team data such as “My Chance of Winning Team 2”
+- `n1` (`Optional[int]`): number of decks represented in the first dataset and used in caluclating the probabilities in `data1`
+- `n2` (`Optional[int]`): number of decks represented in the second dataset and used in caluclating the probabilities in `data2`
+- `win_type1` (`Optional[str]`): either ‘cards’ or ‘tricks’ to denote which win method the winning probabilities represent in `data1`
+- `win_type2` (`Optional[str]`):either ‘cards’ or ‘tricks’ to denote which win method the winning probabilities represent in `data2`
+- `data1_ties` (`Optional[np.ndarray]`): an 8 x 8 array with the tie probabitlies for the first set of data in raw format (range of [0,1]). This is optional in the case the user wants a png but only has `labels1` which holds tie data. It is required if the user wants a html file to make the tooltips correctly.
+- `data2_ties` (`Optional[np.ndarray]`): an 8 x 8 array with the tie probabitlies for the second set of data in raw format (range of [0,1]). This is optional in the case the user wants a png but only has `labels2` which holds tie data. It is required if the user wants a html file to make the tooltips correctly.
+- `labels1` (`Optional[np.ndarray]`): an 8 x 8 array where each element is a string representation what should each cell display in the first subplot. This is optional in the case the user has raw tie data stored in `data1_ties`
+- `labels2` (`Optional[np.ndarray]`): an 8 x 8 array where each element is a string representation what should each cell display in the second subplot. This is optional in the case the user has raw tie data stored in `data2_ties`
+- `letters` (`bool`, optional): boolean denoting whether letters(`True` by default) or numbers (`letters=False`) should be used to represent the card sequences 
 - `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
 
 **Returns:**
-- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated bundled heatmap figure.
+- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated bundled heatmap figure, which is either Matplotlib figure and axes objects if `format='png'`, or a Plotly figure object if `format='html'`
+
+**Description:**
+Generates bundled heatmaps based on the two different sets of data.
+- In the case the user does not specify `data1` or `data2`, the data stored in `results/results.json` will be used to make the bundled heatmap. They can also adjust letters in this case, where `letters=True` (by default) has the card sequences represented by letters, while `letters=False` has them represented by numbers
+    - If the user specified format = ‘html’, `make_heatmap(bundle=True, letters=letters, format='html')` is called, where the bundled heatmap is saved according to the name specified in the `make_heatmap` section.
+    - If the user does not specify `format`, or passes in `format = ‘png’`, `make_heatmap(bundle=True, letters=letters)` is called,  where the bundled heatmap is saved according to the name specified in the `make_heatmap` section.
+- In the case the user specifies at least one set of winning probabilities (`data1` or `data2`, or both)
+    - The condition that both `data1` and `data2` are passed in is checked with `validate_existence`
+    - `validate_and_process_input(n1, win_type1, data1_ties, labels1, data1)` is executed for the data pertaining to the first set of data, where any errors with regards to existence, size, and format are raised if triggered. Otherwise the data for the first set of data is formatted appropriately with `format_data` and `labels1` (in `make_heatmap` named `annots`) are either made or validated depending on the user input.
+    - `validate_and_process_input(n2, win_type2, data2_ties, labels2, data2)` is executed for the data pertaining to the second set of data, where any errors with regards to existence, size, and format are raised if triggered. Otherwise the data for the second set of data is formatted appropriately with `format_data` and `labels2` (in `make_heatmap` named `annots`) are either made or validated depending on the user input.
+    - If the format= ‘png’, `make_heatmap_package_backend(data1=data1, data1_ties=data1_ties, data2=data2, data2_ties=data2_ties,title1=title1, 
+title2=title2, n1=n1, n2=n2, win_type1=win_type1, win_type2=win_type2, labels1=labels1, labels2=labels2, letters=letters)` is called. Its processes are described below.
+    - If the format = ‘html’, `create_html(bundled=True, win_prob=data1, tie_prob=data1_ties, title1=title1, labels=labels1, win_prob2=data2, tie_prob2=data, labels2=labels2, n2=n2, title2=title2, letters=letters)` is called. Its processes are described below
+    - In either case of format, the file is saved as 'figures/heatmap_packaged_[win_type1 specified]_n[n1 specified]_[win_type2 specified]+"_n"+str(n2) followed by “.png” or “.html"
+
+
+
 
 
 ## Helper Functions
