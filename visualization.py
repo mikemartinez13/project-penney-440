@@ -362,7 +362,7 @@ def make_heatmap(data: Optional[np.ndarray]=None,
             if format =='png':
                 fig_b, ax_b= make_heatmap_package(data1=var_cards, data2=var_tricks, labels1=ct_annots, labels2=tt_annots, title1=title,
                                                   title2=title, n1=n_default, n2=n_default, win_type1='cards', win_type2='tricks', letters=letters) ##make_heatmap_package adjusts the titles within it
-                fig_b.savefig('figures/heatmap_packaged_cards_tricks_n'+str(n_default)+".png", bbox_inches = 'tight', facecolor = 'white')
+                ##the associated figure is saved as file in make_heatmap_package
                 
                 if bundle:
                     return fig_b, ax_b
