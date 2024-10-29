@@ -33,7 +33,8 @@ def generate_data(n):
         seed+=1
 
     np.save("data/deck_data.npy", deck_data)
-    return np.array(deck_data, dtype=object)
+    deck_data = np.array(deck_data, dtype=object)
+    return deck_data
 
 def run_game(sequence: int, p1_seq: str, p2_seq: str) -> Tuple[int, int, str, int, int, str, int, int]:
     if p1_seq == p2_seq:
@@ -61,18 +62,20 @@ def run_game(sequence: int, p1_seq: str, p2_seq: str) -> Tuple[int, int, str, in
 
     return p1score_trick, p2score_trick, trick_outcome, p1score_cards, p2score_cards, cards_outcome, tie_card, tie_trick
 
-def by_decks(deck_data: np.ndarray, patterns: List[str]) -> np.ndarray:
+def play(n) -> np.ndarray:
     results = []
-
+    patterns = ['111', '110', '101', '100', '011', '010', '001', '000']
+    deck_data = generate_data(n)
     for seed, shuffled_deck in deck_data:
         for p1_seq in patterns:
             for p2_seq in patterns:
                 result = run_game(int(shuffled_deck, 2), p1_seq, p2_seq)
                 results.append([seed, shuffled_deck, p1_seq, p2_seq, *result])
+    results= np.array(results, dtype=object)
+    
+    calculate_probabilities(results, n, patterns)
 
-    return np.array(results, dtype=object)
-
-def calculate_probabilities(results: np.ndarray) -> dict:
+def calculate_probabilities(results: np.ndarray, n: int, patterns: List[str]) -> dict:
     win_trick_counts = {}
     win_cards_counts = {}
     tie_trick_counts = {}
@@ -119,8 +122,8 @@ def calculate_probabilities(results: np.ndarray) -> dict:
         #total_ties = tie_trick_counts[key] + tie_cards_counts[key]
         total_games = total_trick_games + total_card_games  # Total games is the sum of both
 
-        tie_trick_prob = tie_trick_counts[key] / total_games if total_games > 0 else 0
-        tie_card_prob = tie_cards_counts[key] / total_games if total_games > 0 else 0
+        tie_trick_prob = tie_trick_counts[key] / total_trick_games if total_games > 0 else 0
+        tie_card_prob = tie_cards_counts[key] / total_card_games if total_games > 0 else 0
 
         probabilities[key] = {
             'p2_win_trick_probability': p2_win_trick_prob,
@@ -129,7 +132,9 @@ def calculate_probabilities(results: np.ndarray) -> dict:
             'tie_card_probability': tie_card_prob
         }
 
-    return probabilities
+        original_data = probabilities
+        patterns = ['111', '110', '101', '100', '011', '010', '001', '000']
+        convert_probabilities(original_data, patterns, n)
 
 
 
@@ -164,21 +169,15 @@ def convert_probabilities(original_data, patterns, n):
         "n": n  # Or provide the total number of games as needed
     }
 
-    return json_structure
+    #take our version and put it in the json format ron wants
+    converted_data = json_structure
 
-n_simulations = 1000000
-patterns = ['111', '110', '101', '100', '011', '010', '001', '000']
+    #save to JSON
+    with open("results.json", "w") as json_file:
+        json.dump(converted_data, json_file, indent=4)
 
-deck_data = generate_data(n_simulations)
 
-results = by_decks(deck_data, patterns)
 
-probabilities = calculate_probabilities(results)
-# print(probabilities)
+if __name__ == "__main__":
+    play(10000)
 
-#take our version and put it in the json format ron wants
-converted_data = convert_probabilities(probabilities, patterns, n_simulations)
-
-#save to JSON
-with open("results.json", "w") as json_file:
-    json.dump(converted_data, json_file, indent=4)
