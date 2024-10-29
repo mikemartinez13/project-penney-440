@@ -40,12 +40,16 @@ If the user has data representing win probabilities and want one visualization t
 
 
 - `data` is an 8 x 8 array detailing the win probabilities and is in the range [0,1]. If the size or numbers are in the wrong format, an error message will appear.
-- `data_ties` is an 8 x8 array detailing the tie probabilities. It is optional parameter in the case the user already has information stored in `annots` describing what they want displayed in each cell of the resulting heatmap. If the user wants to save the heatmap as a html, this is required. Error messages will be displayed accordingly.
+- `data_ties` is an 8 x8 array detailing the tie probabilities and is in the range [0,1]. It is optional parameter in the case the user already has information stored in `annots` describing what they want displayed in each cell of the resulting heatmap. If the user wants to save the heatmap as a html, this is required. Error messages will be displayed accordingly.
 - `annots` is an 8 x8 array representing the labels (in strings) for each cell in the 8 x 8 heatmap. It is by default is in the form “win (tie)” where the win and tie probabilities are rounded to the nearest integer. This is an optional parameter in the case the user has information for `data_ties`. If the user passes in both `data_ties` and `annots,` the `annots` passed in will be overwritten, as the most accurate will be those using `data` and `data_ties`.
 - Note: if the user wants a .png, they must either have `data_ties` or `annots` to represent the existence of tie probabilities.
 - Note: For `data`, `data_ties`, and `annots`, each row, going top down, should represent the associated probabilities where “Opponent’s” guesses are in descending order (RRR - BBB or 111 - 000). Each column, going left to right across should represent “My” guesses in ascending order (BBB - RRR or 000 - 111). The probabilities all relate to the user (represented by “My Guesses” and the x axis).
 - `n` is an integer describing how many decks the win probability data stored in `data` represents. Adjusts the title in the final visualization and the name of the file storing the visualization.
 - `win_type` is a string and is either ‘cards’ or ‘tricks’ to describe the winning method for  probabilities in `data`. This argument is used to adjust the title of the final visualization and the name of the visualization file saved.
+- `letters` is a boolean and is set to `True` by default to indicate the card sequences are to be represented with letters (R for red, B for black). The user can specify `letters=False` if they want numbers to represent the card sequences (1 for red, 0 for black).
+- `format` is a string and by default is set to ‘png’ to describe how the final visualization should be saved. The user can set `format =’html’` if they want a html file to be saved.
+- Note: If the user specifies data and is missing any of the required fields or has any issues with regards to the format error messages will appear.
+
 
 
 
