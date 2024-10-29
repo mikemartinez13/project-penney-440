@@ -8,8 +8,8 @@
 - Figure size: single heatmap - (height = 6, width = 6) , bundled heatmap - (height = 6, width = 12)
 - Title font size: 15
 - Axes:
-      - X axis: title = “My Guesses”, title size = 12, tick size: 10
-      - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
+    - X axis: title = “My Guesses”, title size = 12, tick size: 10
+    - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
 - Annot (text in each cell of heatmap) font size = 8
 - Linewidth = 0.5
 - colormap= ‘Blues’
