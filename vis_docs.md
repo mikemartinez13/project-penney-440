@@ -335,9 +335,9 @@ Backend function to create a single heatmap using Seaborn.
 - `n2` (`int`): Number of simulations (or decks) for the second dataset.
 - `win_type1` (`str`): Win type for the first dataset. 
 - `win_type2` (`str`): Win type for the second dataset.
-- `labels1` (np.ndarray): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data1_ties` or user specified.
-- `labels2` (np.ndarray): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data2_ties` or user specified.
-- `letters` (`bool`): Use letter sequences to denote the card sequences for tick labels. Defaults to `True`, if `False` numbers are used.
+- `labels1` (`np.ndarray`, optional): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data1_ties` or user specified.
+- `labels2` (`np.ndarray`, optional): Annotations (in the "win (tie)" format) for the first dataset in an 8 x 8 array. Either made in `validate_and_process_input` with `data2_ties` or user specified.
+- `letters` (`bool`, optional): Use letter sequences to denote the card sequences for tick labels. Defaults to `True`, if `False` numbers are used.
 
 **Returns:**
 - `Tuple[plt.Figure, plt.Axes]`: Matplotlib figure and axes objects with bundled heatmaps.
@@ -361,7 +361,7 @@ Create a 1x2 grid of heatmaps based on the given data. Helper function for the `
 - `tie_prob` (`np.ndarray`): Tie probability data also formatted and in an 8x8 array
 - `labels` (`np.ndarray`): 8 x8 array of annotations to denote the text in each square in the heatmaps.
 - `letters` (`bool`): boolean for letters (`True`) or numbers (`False`) on the axes
-- `col` (`int`): Column index for subplot placement. Defaults to `1`.
+- `col` (`int`, optional): Column index for subplot placement. Defaults to `1`.
 
 **Returns:**
 - `plotly.graph_objs._figure.Figure`: Updated Plotly figure with the heatmap added.
