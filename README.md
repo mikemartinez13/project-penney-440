@@ -31,7 +31,7 @@ If the user wants to create visualizations from the data stored in `results/resu
 
 To use the data stored in a `results/results.json` file the user can call:
 - `make_heatmap(win_type=None, format=’png’, letters=True)` where the user can specify win_type as either ‘cards’, ‘tricks’, or not specify at all to receive the associated visualizations. They can also specify if they want the format=’png’ (the default) or format=’html’, and if they want letters (letters=True) to represent the card sequences or numbers (letters=False). A visualization will be saved according to the `win_type` and be named “heatmap_[win_type]_n[n specified in results/results.json]” followed by “.png” or “.html”. In the case the user does not specify `win_type`, all three separate files (cards individually, tricks individually, both of them bundled using the `make_heatmap_package` function) will be created and saved but only the bundled figure is returned.
-- `make_heatmap_package(format=’png’, letters=True)` results in a visualization displaying the ‘win by cards’ heatmap next to the ‘win by tricks’ heatmap. The user can specify `format=’png’` or `format=’html’` for how they want the image to be saved, as well as if they want letters (`letters=True`) to represent the card sequences or numbers (`letters=False`). The resulting visualization will be saved as “heatmap_packaged_cards_tricks_n[n specified in results/results.json]” followed by “.png” or “.html”. To get a bundled heatmap saved as a png with letters representing the card sequences, the user just has to call make_heatmap_package().
+- `make_heatmap_package(format=’png’, letters=True)` results in a visualization displaying the ‘win by cards’ heatmap next to the ‘win by tricks’ heatmap. The user can specify `format=’png’` or `format=’html’` for how they want the image to be saved, as well as if they want letters (`letters=True`) to represent the card sequences or numbers (`letters=False`). The resulting visualization will be saved as “heatmap_packaged_cards_tricks_n[n specified in results/results.json]” followed by “.png” or “.html”. To get a bundled heatmap saved as a png with letters representing the card sequences, the user just has to call `make_heatmap_package()`.
 - Note: If `results/results.json` does not exist an error message will appear.
 
 To use data the user has made separate from the results/results.json file the user must have data representing win probabilities at the minimum. If this is not given, the win probability data and its associated arguments from the `results/results.json` file will be used.
@@ -51,12 +51,26 @@ If the user has data representing win probabilities and want one visualization t
 - Note: If the user specifies data and is missing any of the required fields or has any issues with regards to the format error messages will appear.
 
 
+If the user has data from two different sets representing win probabilities they can call `make_heatmap_package(data1, data2, title1="My Chance of Winning", title2="My Chance of Winning", n1, n2, win_type1,  win_type2, data1_ties, data2_ties, labels1, labels2, letters=True, format = 'png'`):
 
+- `data1`: 8 x 8 array detailing the win probabilities from dataset 1 and is in the range [0,1]. If the size or numbers are in the wrong format, an error message will appear.
+- `data2`: 8 x 8 array detailing the win probabilities from dataset 2 and is in the range [0,1]. If the size or numbers are in the wrong format, an error message will appear.
+- `title1`: a string set by default to “My Chance of Winning” to describe the title of the first heatmap. The user can define it further such as “My Chance of Winning Team 1” and `win_type1` and `n1` will be used to adjust it in the final visualization.
+- `title2`: a string set by default to “My Chance of Winning” to describe the title of the first heatmap. The user can define it further such as “My Chance of Winning Team 2” and `win_type2` and `n2` will be used to adjust it in the final visualization.
+- `n1`: an integer describing how many decks the win_probabitlty data stored in `data1` represents. Adjusts the title for the first heatmap in the final visualization and the name of the file storing the visualization.
+- `n2`: an integer describing how many decks the win_probabitlty data stored in `data2` represents. Adjusts the title for the first heatmap in the final visualization and the name of the file storing the visualization.
+- `win_type1`:  a string and either ‘cards’ or ‘tricks’ to describe the winning method for  probabilities in `data1`. This argument is used to adjust the title for the first heatmap of the final visualization and the name of the visualization file saved.
+- `win_type2`: a string and either ‘cards’ or ‘tricks’ to describe the winning method for  probabilities in “data2”. This argument is used to adjust the title for the first heatmap of the final visualization and the name of the visualization file saved.
+- `data1_ties`:  8 x8 array detailing the tie probabilities from dataset 1. It is optional parameter in the case the user already has information stored in `labels1` describing what they want displayed in each cell of the first heatmap of the final visualization. If the user wants to save the heatmap as html, this is required. Error messages will be displayed accordingly.
+- `data2_ties`: 8 x8 array detailing the tie probabilities from dataset 2. It is optional parameter in the case the user already has information stored in `labels2` describing what they want displayed in each cell of the first heatmap of the final visualization. If the user wants to save the heatmap as html, this is required. Error messages will be displayed accordingly.
+- `labels1`: an 8 x8 array representing the labels for each cell in the first heatmap, and by default is in the form “win (tie)” where the win and tie probabilities are rounded to the nearest integer. This is an optional parameter in the case the user has information for `data1_ties`. If the user passes in both `data1_ties` and `labels1`, the item passed in as `labels1` will be overwritten, as the most accurate will be those using `data1` and `data1_ties`.
+- `labels2`: an 8 x8 array representing the labels for each cell in the second heatmap, and by default is in the form “win (tie)” where the win and tie probabilities are rounded to the nearest integer. This is an optional parameter in the case the user has information for `data2_ties`. If the user passes in both `data2_ties` and `labels2`, the item passed in as `labels2` will be overwritten, as the most accurate will be those using data1 and data1_ties.
+- Note: For `data1`, `data1_ties`, `labels1`, `data2`, `data2_ties`, and `labels2`, each row, going top down, should represent the associated probabilities where “Opponent”’s guesses are in descending order (RRR - BBB or 111 - 000). Each column, going left to right across, should represent “My” guesses in ascending order (BBB - RRR or 000 - 111).
+- `letters` is a boolean and is set to `True` by default to indicate the card sequences are to be represented with letters (R for red, B for black). The user can specify `letters=False` if they want numbers to represent the card sequences (1 for red, 0 for black).
+- `format` is a string and by default is set to ‘png’ to describe how the final visualization should be saved. The user can set `format =’html’` if they want a html file to be saved.
+- Note: If the user is missing any required fields or has data of the wrong format or size, error messages will be displayed and indicate which set of data triggered them.
 
-
-
-**Parameters:**
-- `path (str)` String of the path where the database of decks is located. 
+Extended descriptions of these functions, other functions used to aid them, error handling functions, and settings associated with the .png and .html figures are located in the [visualization documentation](vis_docs.md).
 
 
 
