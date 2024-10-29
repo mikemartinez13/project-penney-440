@@ -70,18 +70,33 @@ Note: Optional type hinting is used to handle the cases in which the user wants 
 - `n` (`Optional[int]`): an integer describing the number of decks, or is `None`
 - `win_type` (`Optional[str]`):  a string indicating the win method for the probability data. It is either ‘cards’, ‘tricks’, or `None`
 - `title` (`str`, optional): Title of the heatmap. Defaults to `"My Chance of Winning"`but can be modified by the user.
-- `hide_y` (`bool`, optional): Hide y-axis axis, tick labels, and tick marks. Defaults to `False` but is set to `True` in the case of a bundled heatmap visualization to hide the y axis of the 2nd subplot.
-- `cbar_single` (`bool`, optional): Show colorbar for single heatmap. Defaults to `True`.
-- `ax` (`plt.Axes`, optional): Matplotlib Axes object.
-- `bundle` (`bool`, optional): Bundle multiple heatmaps. Defaults to `False`.
-- `letters` (`bool`, optional): Use letter sequences for labels. Defaults to `True`.
+- `hide_y` (`bool`, optional): Determines whether to hide the y-axis title, tick labels, and tick marks. Defaults to `False` but is set to `True` in the case of a bundled heatmap visualization to hide the y axis of the 2nd subplot.
+- `cbar_single` (`bool`, optional): Indicates whether a single heatmap is made and therefore specific colorbar settings shoudl apply. Defaults to `True`, but to create a bundled heatmap visualization in `make_heatmap_package_backend`, a separate cbar is made so `cbar_single` here is set to `False`.
+- `ax` (`plt.Axes`, optional): Matplotlib Axes object. Defaults to `None` in the case that a single heatmap is made. If a bundled heatmap visualization is desired it takes in an axis to describe which subplot to be inserted into. 
+- `bundle` (`bool`, optional): Boolean describing whether to bundle two heatmaps. Defaults to `False` when making a single heatmap, set to `True` to aid in `make_heatmap_package` described below this function.
+- `letters` (`bool`, optional):a boolean by default set to `True`, meaning the card sequences are set to letters rather than numbers (`letters = False`).
 - `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
 
 **Returns:**
 - `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure either as Matplotlib figure and axes objects, or a Plotly figure object
 
 **Description:**
-Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both will be created if win_type is not specified. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` does not exist, an error message will appear.
+Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both bundled together will be created and saved in a `figures` folder if win_type is not specified, but the bundled figure is the object that gets returned. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` file does not exist, an error message will appear.
+
+- In the case the user inputs their own win probability data, setting it equal to `data`:
+    - Checks the data passed in and formats it by calling `validate_and_process_input(n, win_type, data_ties, annots, data)`, raising a `ValueError` if the conditions in validate_and_process_input are not met.
+    - Adjusts the title in the final visualization using `win_type` and `n` passed in by the user.
+    - If the user set `format = ‘png’`, `make_heatmap_backend(data, annots, title, n, hide_y, cbar_single, ax, letters)` is called to make the visualization in png format. The figure is then saved as 'figures/heatmap_[win_type specified] _n[n specified].png"
+    - If the user set format =’html’, `validate_existence(data_ties)` is run since the raw tie data is needed to make tooltips in plotly. If `validate_existence` is passed, `create_html(win_prob=data, tie_prob=data_ties, labels= annots, bundled=False, letters=letters, title=title, n=n)` is called to create a single heatmap. The file is then saved as  'figures/heatmap_[win_type specified] _n[n specified].html’
+- In the case the user wants to use data stored in a results/results.json file:
+    - The raw win by card probabilities (stored as `var_cards`), the raw win by trick probabilities (stored as `var_tricks)`, the tying probabilities associated with each (`card_ties` an `trick_ties`), and `n` are retrieved using `get_data(‘results/results.json)`. An error message will be displayed if `results/results.json` does not exist
+    - Depending on the `win_type` specified by the user, the win by card, win by tricks, and associated tie probabilities are formatted and the required annotations are made as well with the `format_data` and `make_annots` functions.
+    - `make_heatmap_backend` is called with the formatted win probability, annots, title, n from results/results.json, and letters (`True` or `False`) to make the visualization and returns a plt.Figure and plt.Axes
+    - The visualization is then saved as  'figures/heatmap_[win_type specified] _n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
+    - If the user did not specify any `win type`:
+          - win by card, win by tricks, the associated tie probabilities are all formatted with `format_data`, accurate annotations are made with `make_annots`, and titles are made to indicate the win method and denote the number of decks used to make the probability data in `results/results.json`
+
+
 
 ### `make_heatmap_package`
 Generates bundled heatmaps based on the two different types of game types, win by cards and win by "tricks". 
