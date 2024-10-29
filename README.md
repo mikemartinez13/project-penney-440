@@ -25,7 +25,32 @@ Next, open "main.ipynb" and run all of the cells. Below is a list of functions a
 
 For more information on what exactly goes into the `play` function, check out the [data management documentation](data_mgmt.md)
 
-### `heatmap(path)`
+### make_heatmap() and make_heatmap package()
+
+If the user wants to create visualizations from the data stored in `results/results.json` or data they have already created and stored as arrays, they can call either `make_heatmap` if they want one visualization or `make_heatmap_package` if they want a bundled version of 2 heatmaps displayed side by side. Files with the resulting visualizations will be saved in a `figures` folder and can only be stored as ‘.png’ or ‘html’ files, with ‘.png’ being the default.
+
+To use the data stored in a `results/results.json` file the user can call:
+- `make_heatmap(win_type=None, format=’png’, letters=True)` where the user can specify win_type as either ‘cards’, ‘tricks’, or not specify at all to receive the associated visualizations. They can also specify if they want the format=’png’ (the default) or format=’html’, and if they want letters (letters=True) to represent the card sequences or numbers (letters=False). A visualization will be saved according to the `win_type` and be named “heatmap_[win_type]_n[n specified in results/results.json]” followed by “.png” or “.html”. In the case the user does not specify `win_type`, all three separate files (cards individually, tricks individually, both of them bundled using the `make_heatmap_package` function) will be created and saved but only the bundled figure is returned.
+- `make_heatmap_package(format=’png’, letters=True)` results in a visualization displaying the ‘win by cards’ heatmap next to the ‘win by tricks’ heatmap. The user can specify `format=’png’` or `format=’html’` for how they want the image to be saved, as well as if they want letters (`letters=True`) to represent the card sequences or numbers (`letters=False`). The resulting visualization will be saved as “heatmap_packaged_cards_tricks_n[n specified in results/results.json]” followed by “.png” or “.html”. To get a bundled heatmap saved as a png with letters representing the card sequences, the user just has to call make_heatmap_package().
+- Note: If `results/results.json` does not exist an error message will appear.
+
+To use data the user has made separate from the results/results.json file the user must have data representing win probabilities at the minimum. If this is not given, the win probability data and its associated arguments from the `results/results.json` file will be used.
+
+If the user has data representing win probabilities and want one visualization they can call `make_heatmap(data, data_ties, annots, n, win_type, title=”My Chance of Winning”, letters=True, format=’png’)`:
+
+
+- `data` is an 8 x 8 array detailing the win probabilities and is in the range [0,1]. If the size or numbers are in the wrong format, an error message will appear.
+- `data_ties` is an 8 x8 array detailing the tie probabilities. It is optional parameter in the case the user already has information stored in `annots` describing what they want displayed in each cell of the resulting heatmap. If the user wants to save the heatmap as a html, this is required. Error messages will be displayed accordingly.
+- `annots` is an 8 x8 array representing the labels (in strings) for each cell in the 8 x 8 heatmap. It is by default is in the form “win (tie)” where the win and tie probabilities are rounded to the nearest integer. This is an optional parameter in the case the user has information for `data_ties`. If the user passes in both `data_ties` and `annots,` the `annots` passed in will be overwritten, as the most accurate will be those using `data` and `data_ties`.
+- Note: if the user wants a .png, they must either have `data_ties` or `annots` to represent the existence of tie probabilities.
+- Note: For `data`, `data_ties`, and `annots`, each row, going top down, should represent the associated probabilities where “Opponent’s” guesses are in descending order (RRR - BBB or 111 - 000). Each column, going left to right across should represent “My” guesses in ascending order (BBB - RRR or 000 - 111). The probabilities all relate to the user (represented by “My Guesses” and the x axis).
+- `n` is an integer describing how many decks the win probability data stored in `data` represents. Adjusts the title in the final visualization and the name of the file storing the visualization.
+- `win_type` is a string and is either ‘cards’ or ‘tricks’ to describe the winning method for  probabilities in `data`. This argument is used to adjust the title of the final visualization and the name of the visualization file saved.
+
+
+
+
+
 **Parameters:**
 - `path (str)` String of the path where the database of decks is located. 
 
