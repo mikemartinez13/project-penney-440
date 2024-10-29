@@ -19,11 +19,13 @@ To run the simulation, first clone the repository:
 
 Next, you can get all the necessary imports from the `env.yml` file. If you have conda installed, run
 
-`conda env create -f env.yml`
+`conda env create -f env.yml -n penney`
 
-in your command line to get all the necessary imports.
+in your command line to get the necessary environment (here we name it "penney"). Run
 
-Next, open "main.ipynb" and run all of the cells. Below is a list of functions and their parameters:
+`conda activate penney` to activate your environment.
+
+Next, open "main.ipynb" and run all of the cells. You may have to select a kernel, which you'll select the "penney" environment we just created. Below is a list of functions and their parameters:
 
 ### `play` 
 **Parameters:** 
