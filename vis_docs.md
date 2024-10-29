@@ -8,8 +8,8 @@
 - Figure size: single heatmap - (height = 6, width = 6) , bundled heatmap - (height = 6, width = 12)
 - Title font size: 15
 - Axes:
-         * X axis: title = “My Guesses”, title size = 12, tick size: 10
-         * Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
+         - X axis: title = “My Guesses”, title size = 12, tick size: 10
+         - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
 - Annot (text in each cell of heatmap) font size = 8
 - Linewidth = 0.5
 - colormap= ‘Blues’
@@ -61,16 +61,16 @@
 ## Main Functions
 
 ### `make_heatmap`
-Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both will be created if win_type is not specified. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` does not exist, an error message will appear.
+Note: Optional type hinting is used to handle the cases in which the user wants to use data stored in `results/results.json`, or calls `make_heatmap` with their own data where then our validation process needs to be satisfied and raises errors accordingly.
 
 **Parameters:**
-- `data` (`Optional[np.ndarray]`): Win probability data.
-- `data_ties` (`Optional[np.ndarray]`): Tie probability data.
-- `annots` (`Optional[np.ndarray]`): Annotations.
-- `n` (`Optional[int]`): Number of simulations.
-- `win_type` (`Optional[str]`): Type of win metric.
-- `title` (`str`, optional): Title of the heatmap. Defaults to `"My Chance of Winning"`.
-- `hide_y` (`bool`, optional): Hide y-axis labels. Defaults to `False`.
+- `data` (`Optional[np.ndarray]`): Win probability in its raw form (range[0,1]) stored in an 8 x 8 array or is `None`
+- `data_ties` (`Optional[np.ndarray]`): Tie probability in its raw form (range[0,1]) stored in an 8 x 8 array or is `None`
+- `annots` (`Optional[np.ndarray]`): Represents annotations, or what is displayed in each cell of the visualization most likely in the form “win (tie)”. Stored in an 8 x 8 array where each element is a string, or is `None`
+- `n` (`Optional[int]`): an integer describing the number of decks, or is `None`
+- `win_type` (`Optional[str]`):  a string indicating the win method for the probability data. It is either ‘cards’, ‘tricks’, or `None`
+- `title` (`str`, optional): Title of the heatmap. Defaults to `"My Chance of Winning"`but can be modified by the user.
+- `hide_y` (`bool`, optional): Hide y-axis axis, tick labels, and tick marks. Defaults to `False` but is set to `True` in the case of a bundled heatmap visualization to hide the y axis of the 2nd subplot.
 - `cbar_single` (`bool`, optional): Show colorbar for single heatmap. Defaults to `True`.
 - `ax` (`plt.Axes`, optional): Matplotlib Axes object.
 - `bundle` (`bool`, optional): Bundle multiple heatmaps. Defaults to `False`.
@@ -78,7 +78,10 @@ Main function to generate heatmaps based on provided or default data. If the use
 - `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
 
 **Returns:**
-- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure.
+- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure either as Matplotlib figure and axes objects, or a Plotly figure object
+
+**Description:**
+Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both will be created if win_type is not specified. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` does not exist, an error message will appear.
 
 ### `make_heatmap_package`
 Generates bundled heatmaps based on the two different types of game types, win by cards and win by "tricks". 
