@@ -8,8 +8,8 @@
 - Figure size: single heatmap - (height = 6, width = 6) , bundled heatmap - (height = 6, width = 12)
 - Title font size: 15
 - Axes:
-         - X axis: title = “My Guesses”, title size = 12, tick size: 10
-         - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
+      - X axis: title = “My Guesses”, title size = 12, tick size: 10
+      - Y axis: title = “Opponent Guesses’, title size= 12,  tick size = 10
 - Annot (text in each cell of heatmap) font size = 8
 - Linewidth = 0.5
 - colormap= ‘Blues’
@@ -78,7 +78,7 @@ Note: Optional type hinting is used to handle the cases in which the user wants 
 - `format` (`str`, optional): Output format (`'png'` or `'html'`). Defaults to `'png'`.
 
 **Returns:**
-- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure either as Matplotlib figure and axes objects, or a Plotly figure object
+- `Union[Tuple[plt.Figure, plt.Axes], plotly.graph_objs._figure.Figure]`: Generated heatmap figure either as Matplotlib figure and axes objects if `format='png'`, or a Plotly figure object if `format='html'`
 
 **Description:**
 Main function to generate heatmaps based on provided or default data. If the user did not insert any data at all, make_heatmap() will make heatmaps of existing data in the `results/results.json` file. It accesses that data through the `get_data(path)` function. Heatmaps for cards, tricks, and both bundled together will be created and saved in a `figures` folder if win_type is not specified, but the bundled figure is the object that gets returned. The user can also specify "bundle=True" if they only want the bundled package. If the `results/results.json` file does not exist, an error message will appear.
@@ -95,6 +95,12 @@ Main function to generate heatmaps based on provided or default data. If the use
     - The visualization is then saved as  'figures/heatmap_[win_type specified] _n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
     - If the user did not specify any `win type`:
        - win by card, win by tricks, the associated tie probabilities are all formatted with `format_data`, accurate annotations are made with `make_annots`, and titles are made to indicate the win method and denote the number of decks used to make the probability data in `results/results.json`
+       - decks used to make the probability data in `results/results.json`
+If `format = ‘png’` a bundled version of the default win by card (1st subplot) and win by trick data (2nd subplot) is  made by calling `make_heatmap_package` with formatted win probabilities, annotations passed in as `labels1` and `labels2`, `win_type1=’cards’`, `win_type2=’tricks`, both `n1` and `n2` passed in as the `n` stored in `results/results.json`, and `letters` (`True` by default or `False`). If format = ‘html’, `create_html` is called where `bundled=True`, the formatted win probabilities for both win methods, the appropriate annotations for each win method, `n` stored in `results/results.json`, and letters (`True` by default or `False`) are passed in. If `bundle` (set to `False` by default)  in `make_heatmap` is `True`, then only the bundled set of heatmaps is returned and saved as 'figures/heatmap_packaged_cards_tricks_n[n specified in results/results.json]” followed by “.png” or ".html" as specified in format.
+
+       - An individual win by cards visualization is created with `make_heatmap_backend` and saved as  'figures/heatmap_cards _n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
+       - An individual win by tricks visualization is created with `make_heatmap_backend` and saved as  'figures/heatmap_tricks_n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
+       - The bundled figure and axes object (only if `format=’png’) are returned.
 
 
 
