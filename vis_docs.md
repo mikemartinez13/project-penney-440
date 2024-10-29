@@ -94,7 +94,7 @@ Main function to generate heatmaps based on provided or default data. If the use
     - `make_heatmap_backend` is called with the formatted win probability, annots, title, n from results/results.json, and letters (`True` or `False`) to make the visualization and returns a plt.Figure and plt.Axes
     - The visualization is then saved as  'figures/heatmap_[win_type specified] _n[n specified in results/results.json]’ followed by ‘.png’ or ‘html’ depending on what is passed in as format.
     - If the user did not specify any `win type`:
-          - win by card, win by tricks, the associated tie probabilities are all formatted with `format_data`, accurate annotations are made with `make_annots`, and titles are made to indicate the win method and denote the number of decks used to make the probability data in `results/results.json`
+       - win by card, win by tricks, the associated tie probabilities are all formatted with `format_data`, accurate annotations are made with `make_annots`, and titles are made to indicate the win method and denote the number of decks used to make the probability data in `results/results.json`
 
 
 
