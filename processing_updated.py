@@ -9,7 +9,7 @@ import pandas as pd
 from functools import wraps
 from simulation import generate_data, generate_sequence
 
-# def generate_sequence(seed: int, seq: list) -> str:
+#def generate_sequence(seed: int, seq: list) -> str:
 #     '''Takes unshuffled deck as input and outputs string version of shuffled deck.'''
 #     np.random.seed(seed)
 #     np.random.shuffle(seq)
@@ -87,27 +87,27 @@ def calculate_probabilities(results: np.ndarray) -> dict:
     for row in results:
         p1_seq = row[2]
         p2_seq = row[3]
-        p2_trick_outcome = row[6]
-        p2_cards_outcome = row[9]
+        p1_trick_outcome = row[6]
+        p1_cards_outcome = row[9]
         
         key = f"{p1_seq}-{p2_seq}"
         
         if key not in win_trick_counts:
-            win_trick_counts[key] = {'p2_wins': 0, 'total': 0}
-            win_cards_counts[key] = {'p2_wins': 0, 'total': 0}
+            win_trick_counts[key] = {'p1_wins': 0, 'total': 0}
+            win_cards_counts[key] = {'p1_wins': 0, 'total': 0}
             tie_trick_counts[key] = 0
             tie_cards_counts[key] = 0
 
         # wins
-        if p2_trick_outcome == 'p2':
-            win_trick_counts[key]['p2_wins'] += 1
-        if p2_cards_outcome == 'p2':
-            win_cards_counts[key]['p2_wins'] += 1
+        if p1_trick_outcome == 'p1':
+            win_trick_counts[key]['p1_wins'] += 1
+        if p1_cards_outcome == 'p1':
+            win_cards_counts[key]['p1_wins'] += 1
         
         # ties
-        if p2_trick_outcome == 'T':
+        if p1_trick_outcome == 'T':
             tie_trick_counts[key] += 1
-        if p2_cards_outcome == 'T':
+        if p1_cards_outcome == 'T':
             tie_cards_counts[key] += 1
         
         win_trick_counts[key]['total'] += 1
@@ -119,8 +119,8 @@ def calculate_probabilities(results: np.ndarray) -> dict:
         total_trick_games = win_trick_counts[key]['total']
         total_card_games = win_cards_counts[key]['total']
         
-        p2_win_trick_prob = win_trick_counts[key]['p2_wins'] / total_trick_games if total_trick_games > 0 else 0
-        p2_win_card_prob = win_cards_counts[key]['p2_wins'] / total_card_games if total_card_games > 0 else 0
+        p1_win_trick_prob = win_trick_counts[key]['p1_wins'] / total_trick_games if total_trick_games > 0 else 0
+        p1_win_card_prob = win_cards_counts[key]['p1_wins'] / total_card_games if total_card_games > 0 else 0
         
         #total_ties = tie_trick_counts[key] + tie_cards_counts[key]
         total_games = total_trick_games + total_card_games  # Total games is the sum of both
@@ -129,8 +129,8 @@ def calculate_probabilities(results: np.ndarray) -> dict:
         tie_card_prob = tie_cards_counts[key] / total_card_games if total_games > 0 else 0
 
         probabilities[key] = {
-            'p2_win_trick_probability': p2_win_trick_prob,
-            'p2_win_card_probability': p2_win_card_prob,
+            'p1_win_trick_probability': p1_win_trick_prob,
+            'p1_win_card_probability': p1_win_card_prob,
             'tie_trick_probability': tie_trick_prob,
             'tie_card_probability': tie_card_prob
         }
@@ -159,8 +159,8 @@ def convert_probabilities(original_data, patterns, n):
         p1_seq, p2_seq = key.split('-')
         i, j = pattern_to_index[p1_seq], pattern_to_index[p2_seq]
         
-        cards_matrix[i][j] = values['p2_win_card_probability']
-        tricks_matrix[i][j] = values['p2_win_trick_probability']
+        cards_matrix[i][j] = values['p1_win_card_probability']
+        tricks_matrix[i][j] = values['p1_win_trick_probability']
         cards_ties_matrix[i][j] = values['tie_card_probability']
         tricks_ties_matrix[i][j] = values['tie_trick_probability']
 
