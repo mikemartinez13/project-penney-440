@@ -141,18 +141,20 @@ def calculate_probabilities(results: np.ndarray) -> dict:
     return probabilities
 
 
+def rotate_left(matrix: np.ndarray) -> np.ndarray:
+    transposed = np.transpose(matrix)
+    rotated = np.flipud(transposed)
+    return rotated
+
 def convert_probabilities(original_data, patterns, n):
-    # Rework our results.json to match the specified format
     num_patterns = len(patterns)
     cards_matrix = np.zeros((num_patterns, num_patterns))
     tricks_matrix = np.zeros((num_patterns, num_patterns))
     cards_ties_matrix = np.zeros((num_patterns, num_patterns))
     tricks_ties_matrix = np.zeros((num_patterns, num_patterns))
 
-    # Map patterns to indices for filling matrices
     pattern_to_index = {pattern: idx for idx, pattern in enumerate(patterns)}
     
-    # Populate matrices based on the original data
     for key, values in original_data.items():
         p1_seq, p2_seq = key.split('-')
         i, j = pattern_to_index[p1_seq], pattern_to_index[p2_seq]
@@ -162,7 +164,12 @@ def convert_probabilities(original_data, patterns, n):
         cards_ties_matrix[i][j] = values['tie_card_probability']
         tricks_ties_matrix[i][j] = values['tie_trick_probability']
 
-    # Convert matrices to lists for JSON format
+    # rotate left
+    cards_matrix = rotate_left(cards_matrix)
+    tricks_matrix = rotate_left(tricks_matrix)
+    cards_ties_matrix = rotate_left(cards_ties_matrix)
+    tricks_ties_matrix = rotate_left(tricks_ties_matrix)
+
     json_structure = {
         "cards": cards_matrix.tolist(),
         "tricks": tricks_matrix.tolist(),
