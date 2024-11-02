@@ -35,7 +35,7 @@ Next, open "main.ipynb" and run all of the cells. You may have to select a kerne
 
  The function stores data in a database format. If the database file already exists, the function will append to the existing database. For our structure, the data is stored in a `“data/”` folder. If data is being appended to an existing database, a different seed should be used so that duplicate decks are not generated. In every iteration, each possible combination of guesses from Player 1 and Player 2 will be tested, making 64 total games using one deck.
 
-For more information on what exactly goes into the `play` function, check out the [data management documentation](data_mgmt.md)
+For more information on what exactly goes into the `play` function, check out the [data management documentation](data_docs.md)
 
 ### make_heatmap() and make_heatmap package()
 
