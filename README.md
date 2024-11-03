@@ -46,7 +46,7 @@ To use the data stored in a `results/results.json` file the user can call:
 - `make_heatmap_package(format=’png’, letters=True)` results in a visualization displaying the ‘win by cards’ heatmap next to the ‘win by tricks’ heatmap. The user can specify `format=’png’` or `format=’html’` for how they want the image to be saved, as well as if they want letters (`letters=True`) to represent the card sequences or numbers (`letters=False`). The resulting visualization will be saved as “heatmap_packaged_cards_tricks_n[n specified in results/results.json]” followed by “.png” or “.html”. To get a bundled heatmap visualization saved as a png with letters representing the card sequences, the user just has to call `make_heatmap_package()`.
 - Note: If `results/results.json` does not exist an error message will appear.
 
-To use data the user has made separate from the results/results.json file the user must have data representing win probabilities at the minimum. If this is not given, the win probability data and its associated arguments from the `results/results.json` file will be used.
+To use data the user has made separate from the results/results.json file the user must have data representing win probabilities at the minimum. If this is not given, the win probability data and its associated arguments from the `results/results.json` file will be used. The user's data must be in raw probability format (0,1) and must follow the array structure described above.
 
 If the user has data representing win probabilities and want one visualization they can call `make_heatmap(data, data_ties, annots, n, win_type, title=”My Chance of Winning”, letters=True, format=’png’)`:
 
