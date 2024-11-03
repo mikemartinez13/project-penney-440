@@ -1,7 +1,7 @@
 # Project Penny
 ### Authored by Mike Martinez, Annamarie Warnke, Zoe Cummings, David Cho, Claire Kolman, Kirin Mackey
 
-**The main branch is the most up to date branch, other branches were used for development.**
+**The main-updated branch is the most up to date branch, other branches were used for development.**
 
 Project Penney is a project designed to simulate Penney's Game, a game played between two players where each player chooses a sequence of three card colors (e.g. Red, Black, Black). Points are awarded to players if their sequence appears when pulling cards sequentially from a well-shuffled deck. Penney's Game is of interest because the probability of winning is not equal; if the second player learns the sequence chosen by the first player, they can follow a rule to optimize their chances of winning. More information can be found in [the Wikipedia page](https://en.wikipedia.org/wiki/Penney%27s_game). 
 
